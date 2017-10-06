@@ -24,3 +24,27 @@ class ParameterSetting(models.Model):
     driver = fields.Selection(selection=[('FreeTDS', 'FreeTDS'),('other', 'Other')], string='Driver', help='Choose Driver')
     version = fields.Char(string='Driver Version', size=64, help='TDS_Version')
     active = fields.Boolean(string='Active', help='Active', default=True)
+
+    @api.multi
+    def _get_connection(self):
+        logger.info('\n=== Try Connect on SQL Server ===\n')
+        connection = False
+        crSQLServer = False
+        # TODO
+        # Make prm driver dynamic
+        prm = "DRIVER=%s;SERVER=%s;PORT=%s;DATABASE=%s;UID=%s;PWD=%s;TDS_Version=%s" % (self.driver, self.name, self.port, self.database, self.dbuser, self.db_pass, self.version)
+        try:
+            # connection = pypyodbc.connect("DRIVER=FreeTDS;SERVER=10.0.0.92;
+            # PORT=1433;DATABASE=dwh_stat;UID=sa;PWD=Aro1;TDS_Version=7.0")
+            connection = pyodbc.connect(prm)
+            crSQLServer = connection.cursor()
+            # crSQLServer.execute(request_sql2)
+        except Exception, e:
+            raise Warning(_('Error'),
+                                     _('Can\'t connect to SQL Server %s' % e))
+        logger.info('\n=== Connected  ===\n')
+
+        return {
+            'con': connection,
+            'crSQLServer': crSQLServer,
+        }
