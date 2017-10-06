@@ -2,23 +2,6 @@
 <openerp>
     <data>
 
-        <!-- This file should contain only records from model ir.ui.view -->
-
-        <!-- Example:
-
-        <record id="view_sale_order_calendar" model="ir.ui.view">
-            <field name="name">sale.order.calendar</field>
-            <field name="model">sale.order</field>
-            <field name="arch" type="xml">
-                <calendar string="Sales Orders" color="state" date_start="date_order">
-                    <field name="partner_id"/>
-                    <field name="amount_total"/>
-                </calendar>
-            </field>
-        </record>
-
-        -->
-
         <record id="view_parameter_setting_tree" model="ir.ui.view">
             <field name="name">parameter.setting.tree</field>
             <field name="model">parameter.setting</field>
@@ -27,6 +10,7 @@
             <field name="arch" type="xml">
                 <tree string="Setting">
                     <field name="name"/>
+                    <field name="host"/>
                     <field name="port"/>
                     <field name="database"/>
                     <field name="active"/>
@@ -41,16 +25,25 @@
             <field name="priority" eval="8"/>
             <field name="arch" type="xml">
                 <form string="Setting">
-                    <group colspan="4">
-                        <field name="name"/>
-                        <field name="port"/>
-                        <field name="database"/>
-                        <field name="dbuser"/>
-                        <field name="db_pass"/>
-                        <field name="driver"/>
-                        <field name="version"/>
-                        <field name="active"/>
-                    </group>
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group col="4" string="Connection Information">
+                            <field name="host"/>
+                            <field name="port"/>
+                            <field name="database"/>
+                        </group>
+                        <group col="4" string="Security and Authentication">
+                            <field name="dbuser"/>
+                            <field name="db_pass" password="True"/>
+                            <field name="driver"/>
+                            <field name="version"/>
+                            <field name="active"/>
+                            <button name="test_sqlserver_connection" type="object" string="Test Connection" icon="gtk-network"/>>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
