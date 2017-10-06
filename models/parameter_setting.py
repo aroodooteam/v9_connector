@@ -20,7 +20,6 @@ class ParameterSetting(models.Model):
     database = fields.Char(string='Database', help='Name of the database')
     dbuser = fields.Char(string='DB User', help='User of v9 database')
     db_pass = fields.Char(string='Password', help='Put the password here')
-    driver = fields.Char(string='Driver', help='Help note')
     driver = fields.Selection(selection=[('FreeTDS', 'FreeTDS'),('other', 'Other')], string='Driver', help='Choose Driver')
     version = fields.Char(string='Driver Version', size=64, help='TDS_Version')
     active = fields.Boolean(string='Active', help='Active', default=True)
