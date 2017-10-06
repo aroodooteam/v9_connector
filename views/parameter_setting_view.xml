@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+
+        <!-- This file should contain only records from model ir.ui.view -->
+
+        <!-- Example:
+
+        <record id="view_sale_order_calendar" model="ir.ui.view">
+            <field name="name">sale.order.calendar</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <calendar string="Sales Orders" color="state" date_start="date_order">
+                    <field name="partner_id"/>
+                    <field name="amount_total"/>
+                </calendar>
+            </field>
+        </record>
+
+        -->
+
+        <record id="view_parameter_setting_tree" model="ir.ui.view">
+            <field name="name">parameter.setting.tree</field>
+            <field name="model">parameter.setting</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Setting">
+                    <field name="name"/>
+                    <field name="port"/>
+                    <field name="database"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_parameter_setting_form" model="ir.ui.view">
+            <field name="name">parameter.setting.form</field>
+            <field name="model">parameter.setting</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Setting">
+                    <group colspan="4">
+                        <field name="name"/>
+                        <field name="port"/>
+                        <field name="database"/>
+                        <field name="dbuser"/>
+                        <field name="db_pass"/>
+                        <field name="driver"/>
+                        <field name="version"/>
+                        <field name="active"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_parameter_setting_search" model="ir.ui.view">
+            <field name="name">parameter.setting.search</field>
+            <field name="model">parameter.setting</field>
+            <field name="type">search</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <search string="Setting">
+                <field name="name" select="True"/>
+            </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_parameter_setting_view">
+            <field name="name">Setting</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">parameter.setting</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_parameter_setting_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_parameter_setting_view_form">
+            <field name="act_window_id" ref="act_open_parameter_setting_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_parameter_setting_form"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_parameter_setting_view_tree">
+            <field name="act_window_id" ref="act_open_parameter_setting_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_parameter_setting_tree"/>
+        </record>
+
+        <menuitem id="menu_parameter_setting"
+            parent="base.menu_custom"
+            sequence="20"
+            action="act_open_parameter_setting_view"/>
+
+    </data>
+</openerp>
