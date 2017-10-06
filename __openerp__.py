@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 {
-    "name": "v9_connector",
+    "name": "V9 connector",
     "version": "0.1",
-    "author": "aroodoo_asus_hary",
+    "author": "Rakotomalala Haritiana <haryoran04@gmail.com>",
     "category": "Tools",
     "complexity": "normal",
     "data": [

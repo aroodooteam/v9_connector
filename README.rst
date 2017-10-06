@@ -1,7 +1,7 @@
 =====================
-v9_connector
+V9 connector
 =====================
 
  OpenERP/Odoo module.
 
-This is an Odoo addons.
+This connector allow user to migrate contract from v9 to Odoo.
