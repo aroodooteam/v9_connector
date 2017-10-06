@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="sql_server_contract_data_r0" model="parameter.setting">
+            <field name="name">10.0.0.91</field>
+            <field name="port">1433</field>
+            <field name="database">1433</field>
+            <field name="dbuser">Sa</field>
+            <field name="db_pass">Aro1</field>
+            <field name="driver">FreeTDS</field>
+            <field name="version">7.0</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</openerp>
