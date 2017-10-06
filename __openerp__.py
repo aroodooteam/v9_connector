@@ -10,10 +10,10 @@
         # "data/templates.xml", # un comment to enable js, css code
         # "security/security.xml",
         # "security/ir.model.access.csv",
-        # "views/view.xml",
+        "views/parameter_setting_view.xml",
         # "actions/act_window.xml",
         # "menu.xml",
-        # "data/data.xml",
+        "data/setting_data.xml",
     ],
     "depends": [
         "base",
