@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+  <!-- QWEB Templates for UI Widgets and views -->
+
+  <!--
+
+  <t t-name="v9_connectorView">
+    <div class="oe_v9_connector_view">
+      <div class="oe_v9_connector_buttons"/>>
+      <table class="oe_v9_connector_groups">
+        <tr class="oe_v9_connector_groups_headers">
+          <td class="oe_v9_connector_dummy_cell"><div/></td>
+        </tr>
+        <tr class="oe_v9_connector_dummy_row">
+        </tr>
+      </table>
+    </div>
+  </t>
+
+  -->
+
+</templates>
