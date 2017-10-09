@@ -11,6 +11,7 @@
         # "security/security.xml",
         # "security/ir.model.access.csv",
         "views/parameter_setting_view.xml",
+        "views/models_mapping_values_view.xml",
         # "actions/act_window.xml",
         # "menu.xml",
         "data/setting_data.xml",

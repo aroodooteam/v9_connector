@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="view_models_mapping_values_tree" model="ir.ui.view">
+            <field name="name">models_mapping_values.tree</field>
+            <field name="model">models.mapping.values</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <tree string="Models Mapping">
+                    <field name="name"/>
+                    <field name="sql_model"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_models_mapping_values_form" model="ir.ui.view">
+            <field name="name">models_mapping_values.form</field>
+            <field name="model">models.mapping.values</field>
+            <field name="type">form</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Models Mapping">
+                    <sheet>
+                        <group colspan="4">
+                            <field name="name" required="1"/>
+                            <field name="sql_model" required="1"/>
+                            <field name="model_id" required="1"/>
+                            <field name="server_id" required="1"/>
+                        </group>
+                        <field name="attributes_ids" attrs="{'invisible':[('model_id', '=', False)]}" context="{'default_model_id': model_id}">
+                            <tree string="Mapping attributes" editable="top">
+                                <field name="name" required="1"/>
+                                <field name="fields_id" required="1"/>
+                                <field name="models_mapping_id" invisible="1"/>
+                                <field name="model_id" invisible="1"/>
+                            </tree>
+                        </field>
+                        <field name="comments" nolabel="1"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_models_mapping_values_search" model="ir.ui.view">
+            <field name="name">models_mapping_values.search</field>
+            <field name="model">models.mapping.values</field>
+            <field name="type">search</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+            <search string="Models Mapping">
+                <field name="name" select="True"/>
+            </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_open_models_mapping_values_view">
+            <field name="name">Models Mapping</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">models.mapping.values</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_models_mapping_values_search"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_models_mapping_values_view_form">
+            <field name="act_window_id" ref="act_open_models_mapping_values_view"/>
+            <field name="sequence" eval="20"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_models_mapping_values_form"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="act_open_models_mapping_values_view_tree">
+            <field name="act_window_id" ref="act_open_models_mapping_values_view"/>
+            <field name="sequence" eval="10"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_models_mapping_values_tree"/>
+        </record>
+
+        <menuitem id="menu_models_mapping_values"
+            parent="base.menu_custom"
+            sequence="20"
+            action="act_open_models_mapping_values_view"/>
+    </data>
+</openerp>
