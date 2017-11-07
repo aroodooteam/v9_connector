@@ -29,13 +29,37 @@
                             <field name="server_id" required="1"/>
                         </group>
                         <field name="attributes_ids" attrs="{'invisible':[('model_id', '=', False)]}" context="{'default_model_id': model_id}">
-                            <tree string="Mapping attributes" editable="top">
+                            <tree string="Mapping attributes">
                                 <field name="name" required="1"/>
                                 <field name="fields_id" required="1"/>
+                                <field name="check_unicity"/>
+                                <field name="operator"/>
                                 <field name="models_mapping_id" invisible="1"/>
                                 <field name="model_id" invisible="1"/>
                             </tree>
+                            <form string="Attributes">
+                                <group colspan="4">
+                                    <group cols="6">
+                                        <field name="name" required="1"/>
+                                        <field name="check_unicity"/>
+                                    </group>
+                                    <group cols="6">
+                                        <field name="fields_id" required="1"/>
+                                        <!--<field name="operator"/>-->
+                                    </group>
+                                </group>
+                                <separator string="Domain"/>
+                                <label for="related_criteria"/>
+                                <field name="related_criteria" nolabel="1"/>
+                                <label for="current_criteria"/>
+                                <field name="current_criteria" nolabel="1"/>
+                            </form>
                         </field>
+                        <div>
+                            <label for="sql_request" string="SQL Request"/>
+                            <field name="sql_request" nolabel="1"/>
+                            <button string="Execute SQL" icon="gtk-ok" type="object" name="import_data"/>
+                        </div>
                         <field name="comments" nolabel="1"/>
                     </sheet>
                 </form>

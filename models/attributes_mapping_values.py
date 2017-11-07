@@ -11,3 +11,7 @@ class AttributesMappingValues(models.Model):
     models_mapping_id = fields.Many2one(comodel_name='models.mapping.values', string='Models Mapping')
     model_id = fields.Many2one(comodel_name='ir.model', string='Models', help='Odoo Models', related='models_mapping_id.model_id')
     fields_id = fields.Many2one(comodel_name='ir.model.fields', string='Fields', domain="[('model_id', '=', model_id)]")
+    check_unicity = fields.Boolean(string='Check unicity', help=u'Don\'t insert data in allready exist')
+    operator = fields.Selection(selection=[('&', 'And'),('|', 'Or')], string='operator')
+    related_criteria = fields.Char(string='Relationnal field Domain', help=u'Domain to use in case of relationnal field need to be converted in DB id')
+    current_criteria = fields.Char(string='Current Model Domain', help=u'Domain to use in current target model to search if data allready exist in case of <Check unicity> is checked')
