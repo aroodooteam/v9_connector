@@ -36,10 +36,17 @@ class ModelsMappingValues(models.Model):
         if cr_sql:
             res = self.map_sql_todict(cr_sql)
             res = self.map_dict(res)
-            uniq_field = self.get_uniq_field()
+            logger.info('res = %s' % res)
+            # # uniq_field = self.get_uniq_field()
             rel_field = self.get_relationnal_field()
-            logger.info('=== uniq_field = %s' % uniq_field)
-            self.insert_dict(res, uniq_field[0], rel_field[0])
+            logger.info('res_field = %s' % rel_field)
+            if rel_field[0]:
+                res = self.recompute_dict_with_related_field(res, rel_field[0])
+                logger.info('=== data = %s' % res)
+            # logger.info('=== uniq_field = %s' % uniq_field)
+            # # self.insert_dict(res, uniq_field[0], rel_field[0])
+            # self.insert_dict(res, rel_field[0])
+            self.insert_dict(res)
         return True
 
     @api.multi
@@ -58,12 +65,22 @@ class ModelsMappingValues(models.Model):
             return []
         res = []
         val = {}
+        domain = False
+        final_dom = []
         for arg in args:
+            final_dom = []
             for k in self.attributes_ids:
                 # logger.info('=== %s, %s => %s' % (k.name, k.fields_id.name, arg.get(k.name)))
+                if k.check_unicity and k.current_criteria:
+                    if arg.get(k.name,False) not in (None, False):
+                        domain = k.current_criteria % arg.get(k.name,False)
+                    else:
+                        domain = '[]'
+                    final_dom += eval(domain)
                 val.update({
-                    str(k.fields_id.name): arg.get(k.name, False)
+                    str(k.fields_id.name): arg.get(k.name, False),
                 })
+            val.update({'domain': final_dom})
             res.append(val)
             val = {}
         return res
@@ -84,26 +101,85 @@ class ModelsMappingValues(models.Model):
         res = []
         val = {}
         for k in self.attributes_ids:
-            if not k.check_unicity and k.related_criteria:
-                val.update({k.fields_id.name: k.related_criteria})
+            if not k.check_unicity and k.check_rel_field:
+                val.update(
+                    {
+                        k.fields_id.name: {
+                            'domain': k.related_criteria,
+                            'model': k.rel_model_id.model
+                        }
+                    }
+                )
         res.append(val)
         return res
 
     @api.multi
-    def insert_dict(self, vals, uniq_crit={}, rel_crit={}):
+    def recompute_dict_with_related_field(self, vals, rel_dict={}):
+        res = []
+        if not rel_dict:
+            return res
+        for val in vals:
+            # buf_val = {}
+            for k,v in rel_dict.iteritems():
+                if k in val and val.get(k, False):
+                    dyn_obj = self.env[v.get('model')]
+                    domain = v.get('domain') % val.get(k)
+                    domain = eval(domain)
+                    # logger.info('computed_loop_domain = %s' % domain)
+                    dyn_ids = dyn_obj.search(domain)
+                    logger.info('=== dyn_ids = %s' % dyn_ids)
+                    if not dyn_ids:
+                        "Create new record to fix it"
+                        logger.info('=== Error: no data found for %s with domain = %s' % (v.get('model'), domain))
+                        raise exceptions.Warning(
+                            _('Error'),
+                            _("No data found for %s with domain = %s" % (v.get('model'), domain))
+                        )
+                    elif dyn_ids and len(dyn_ids) > 1:
+                        "Verify the correct record to fix it"
+                        logger.info('=== Error: to much data found for %s with domain = %s' % (v.get('model'), domain))
+                        raise exceptions.Warning(
+                            _('Error'),
+                            _("To much data found for %s with domain = %s" % (v.get('model'), domain))
+                        )
+                    else:
+                        val[k] = dyn_ids.id
+            res.append(val)
+        return res
+
+    @api.multi
+    def insert_dict(self, vals, rel_crit={}):
         if not vals:
             logger.info('=== nothing to insert')
             return False
-        if not uniq_crit and not rel_crit:
+        if not rel_crit:
             logger.info('=== no criteria')
-        logger.info('=== vals = %s' % vals)
-        domain = False
-        for k,v in uniq_crit.iteritems():
-            domain = v
-            logger.info('%s, %s' %(k,v))
+        logger.info('=== vals = %s' % len(vals))
+        tt = len(vals)
+        # logger.info('=== rel_crit = %s' % rel_crit)
         for val in vals:
+            domain = val.pop('domain')
+            logger.info('== %s val = %s' % (tt, val))
+            model_obj = self.env[self.model_id.model]
+            if domain:
+                src_ids = model_obj.search(domain)
+                logger.info('src_ids = %s' % src_ids)
+                if not src_ids:
+                    model_obj.create(val)
+                elif src_ids and len(src_ids) == 1:
+                    src_ids.write(val)
+            tt -= 1
 
-            src_ids = self.model_id.search(domain)
-            logger.info('src_ids = %s' % src_ids)
-            if not src_ids:
-                self.model_id.create(val)
+        # domain = False
+        # for k,v in uniq_crit.iteritems():
+        #     domain = v
+        #     logger.info('%s, %s' %(k,v))
+        # for val in vals:
+        #     logger.info('=== domain = %s' % domain)
+        #     src_ids = self.model_id.search(domain)
+        #     logger.info('src_ids = %s' % src_ids)
+        #     # if not src_ids:
+        #         # self.model_id.create(val)
+
+    # @api.multi
+    # def compute_domain(self, vals,)
