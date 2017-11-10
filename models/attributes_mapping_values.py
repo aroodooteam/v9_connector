@@ -10,6 +10,8 @@ class AttributesMappingValues(models.Model):
     name = fields.Char(string='Name', size=64, help='Field name from sql server')
     models_mapping_id = fields.Many2one(comodel_name='models.mapping.values', string='Models Mapping')
     model_id = fields.Many2one(comodel_name='ir.model', string='Models', help='Odoo Models', related='models_mapping_id.model_id')
+    check_rel_field = fields.Boolean(string='Check Related field', help=u'Don\'t insert data if allready exist')
+    rel_model_id = fields.Many2one(comodel_name='ir.model', string='Related Model')
     fields_id = fields.Many2one(comodel_name='ir.model.fields', string='Fields', domain="[('model_id', '=', model_id)]")
     check_unicity = fields.Boolean(string='Check unicity', help=u'Don\'t insert data in allready exist')
     operator = fields.Selection(selection=[('&', 'And'),('|', 'Or')], string='operator')
