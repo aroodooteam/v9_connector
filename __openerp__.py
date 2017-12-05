@@ -1,29 +1,21 @@
 # -*- coding: utf-8 -*-
 
 {
-    "name": "V9 connector",
+    "name": 'V9 connector',
     "version": "0.1",
+    "depends": [
+        'account',
+        'analytic',
+        'base',
+        'insurance_management',
+    ],
     "author": "Rakotomalala Haritiana <haryoran04@gmail.com>",
     "category": "Tools",
-    "complexity": "normal",
-    "data": [
-        # "data/templates.xml", # un comment to enable js, css code
-        # "security/security.xml",
-        # "security/ir.model.access.csv",
-        "views/parameter_setting_view.xml",
-        "views/models_mapping_values_view.xml",
-        # "actions/act_window.xml",
-        # "menu.xml",
-        "data/setting_data.xml",
-    ],
-    "depends": [
-        "base",
-    ],
-    "qweb": [
-        # "static/src/xml/*.xml",
-    ],
-    "test": [
-    ],
     "installable": True,
-    "auto_install": False,
+    "data": [
+        'views/parameter_setting_view.xml',
+        'views/models_mapping_values_view.xml',
+        'data/setting_data.xml',
+        'data/model_mapping_values_data.xml',
+    ],
 }
