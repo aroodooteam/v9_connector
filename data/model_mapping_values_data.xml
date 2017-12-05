@@ -254,5 +254,60 @@ order by ver_ptrpolident,ver_number
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_fiscal_position"/>
     </record>
+    <record id="models_mapping_values_5_import_type_de_risques_objet_de_risque_r0" model="models.mapping.values">
+      <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
+      <field name="sql_model">od_primes_lignes</field>
+      <field name="name">5- Import type de risques (Objet de risque)</field>
+      <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+      <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
+      <field name="sql_request">select distinct 
+	str(lpr_ident) lpr_ident,str(lpr_ptrprmident) lpr_ptrprmident,str(prm_ptrpolident) prm_ptrpolident,product_id,
+	RIGHT(product_id,5) type_risk_id,description,odprml.compte,
+	quantity,unit_price,te,tva,montant_ht,odprm.new_compte,
+	odprm.prm_ptrverident, str(odprml.lpr_ident) + '_' + str(odprm.prm_ptrverident) as lpr_prm
+from od_primes_lignes odprml
+left join od_primes odprm on odprm.prm_ident = odprml.lpr_ptrprmident
+where product_id != 'FRAI3'
+order by lpr_ptrprmident</field>
+    </record>
+    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r0" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="related_criteria">[('ver_ident','=','%s')]</field>
+      <field name="check_rel_field" eval="True"/>
+      <field name="name">prm_ptrverident</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_history_id"/>
+      <field name="check_unicity" eval="False"/>
+      <field name="rel_model_id" ref="insurance_management.model_analytic_history"/>
+    </record>
+    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r1" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="related_criteria">[('ref_unique','=','%s')]</field>
+      <field name="check_rel_field" eval="True"/>
+      <field name="name">new_compte</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_partner_id"/>
+      <field name="check_unicity" eval="False"/>
+      <field name="rel_model_id" ref="account.model_res_partner"/>
+    </record>
+    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r2" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="check_rel_field" eval="True"/>
+      <field name="name">type_risk_id</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_type_risk_id"/>
+      <field name="check_unicity" eval="False"/>
+      <field name="rel_model_id" ref="insurance_management.model_insurance_type_risk"/>
+    </record>
+    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r3" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="check_rel_field" eval="False"/>
+      <field name="name">lpr_prm</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_name"/>
+      <field name="check_unicity" eval="True"/>
+    </record>
   </data>
 </openerp>
