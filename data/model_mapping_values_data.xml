@@ -208,6 +208,7 @@ order by ver_ptrpolident,ver_number
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="analytic.model_account_analytic_account"/>
     </record>
+    <!--
     <record id="attributes_mapping_values_4_import_polices_versions_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
@@ -218,6 +219,7 @@ order by ver_ptrpolident,ver_number
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_analytic_history_stage"/>
     </record>
+    -->
     <record id="attributes_mapping_values_4_import_polices_versions_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
