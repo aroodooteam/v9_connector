@@ -169,5 +169,88 @@ from od_polices</field>
       <field name="fields_id" ref="analytic.field_account_analytic_account_date_start"/>
       <field name="check_unicity" eval="False"/>
     </record>
+    <record id="models_mapping_values_4_import_polices_versions_r0" model="models.mapping.values">
+      <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
+      <field name="sql_model">od_versions</field>
+      <field name="name">4- Import Polices Versions</field>
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
+      <field name="sql_request">select distinct
+	ver_ident,ver_ptrpolident,ver_typemission,ver_datedeb,
+	ver_datefin,ver_number,
+	case
+		when is_last_situation = 0 then 'False'
+		else 'True'
+	end is_last_situation,
+	ver_datecre,
+	CONVERT(integer, right(ltrim(ver_number),1)) ver_serie,odp.terfisc terfisc
+from od_versions odv
+left join od_polices odp on odp.pol_ident=odv.ver_ptrpolident
+order by ver_ptrpolident,ver_number
+</field>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r0" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="current_criteria">[('ver_ident','=','%s')]</field>
+      <field name="check_rel_field" eval="False"/>
+      <field name="name">ver_ident</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_ver_ident"/>
+      <field name="check_unicity" eval="True"/>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r1" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="related_criteria">[('pol_ident','=','%s')]</field>
+      <field name="check_rel_field" eval="True"/>
+      <field name="name">ver_ptrpolident</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_analytic_id"/>
+      <field name="check_unicity" eval="False"/>
+      <field name="rel_model_id" ref="analytic.model_account_analytic_account"/>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r2" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="check_rel_field" eval="True"/>
+      <field name="name">ver_typemission</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_stage_id_6208"/>
+      <field name="check_unicity" eval="False"/>
+      <field name="rel_model_id" ref="insurance_management.model_analytic_history_stage"/>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r3" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="check_rel_field" eval="False"/>
+      <field name="name">ver_datedeb</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_starting_date"/>
+      <field name="check_unicity" eval="False"/>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r4" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="check_rel_field" eval="False"/>
+      <field name="name">ver_datefin</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_ending_date"/>
+      <field name="check_unicity" eval="False"/>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r5" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="check_rel_field" eval="False"/>
+      <field name="name">is_last_situation</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_is_last_situation"/>
+      <field name="check_unicity" eval="False"/>
+    </record>
+    <record id="attributes_mapping_values_4_import_polices_versions_r6" model="attributes.mapping.values">
+      <field name="model_id" ref="insurance_management.model_analytic_history"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="related_criteria">[('name','=','%s')]</field>
+      <field name="check_rel_field" eval="True"/>
+      <field name="name">terfisc</field>
+      <field name="fields_id" ref="insurance_management.field_analytic_history_property_account_position"/>
+      <field name="check_unicity" eval="False"/>
+      <field name="rel_model_id" ref="account.model_account_fiscal_position"/>
+    </record>
   </data>
 </openerp>
