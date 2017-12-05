@@ -37,5 +37,22 @@
       <field name="fields_id" ref="insurance_management.field_res_partner_ref_unique"/>
       <field name="check_unicity" eval="True"/>
     </record>
+    <record id="models_mapping_values_2_import_territoire_fiscal_r0" model="models.mapping.values">
+      <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
+      <field name="sql_model">od_polices</field>
+      <field name="name">2- Import Territoire fiscal</field>
+      <field name="model_id" ref="account.model_account_fiscal_position"/>
+      <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
+      <field name="sql_request">select terfisc from od_polices</field>
+    </record>
+    <record id="attributes_mapping_values_2_import_territoire_fiscal_r0" model="attributes.mapping.values">
+      <field name="model_id" ref="account.model_account_fiscal_position"/>
+      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_2_import_territoire_fiscal_r0"/>
+      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="check_rel_field" eval="False"/>
+      <field name="name">terfisc</field>
+      <field name="fields_id" ref="account.field_account_fiscal_position_name"/>
+      <field name="check_unicity" eval="True"/>
+    </record>
   </data>
 </openerp>
