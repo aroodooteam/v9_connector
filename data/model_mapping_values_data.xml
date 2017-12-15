@@ -13,7 +13,7 @@
     <record id="attributes_mapping_values_1_import_client_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
-      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">nom_client</field>
       <field name="fields_id" ref="base.field_res_partner_name"/>
@@ -22,7 +22,7 @@
     <record id="attributes_mapping_values_1_import_client_r1" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
-      <field name="current_criteria">[('ref','=','%s')]</field>
+      <field name="current_criteria">[('ref','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">ref_client</field>
       <field name="fields_id" ref="base.field_res_partner_ref"/>
@@ -31,7 +31,7 @@
     <record id="attributes_mapping_values_1_import_client_r2" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
-      <field name="current_criteria">[('ref_unique','=','%s')]</field>
+      <field name="current_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">new_compte</field>
       <field name="fields_id" ref="insurance_management.field_res_partner_ref_unique"/>
@@ -48,7 +48,7 @@
     <record id="attributes_mapping_values_2_import_territoire_fiscal_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_fiscal_position"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_2_import_territoire_fiscal_r0"/>
-      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">terfisc</field>
       <field name="fields_id" ref="account.field_account_fiscal_position_name"/>
@@ -61,16 +61,16 @@
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
       <field name="sql_request">select distinct
-	'True' as is_insurance, new_compte as partner_id,
-	terfisc, new_compte as insured_id, 'contract' as type,
-	branche_code, produit_code, fraction_code,
-	pol_ident, numpol, date_creation
+    'True' as is_insurance, new_compte as partner_id,
+    terfisc, new_compte as insured_id, 'contract' as type,
+    branche_code, produit_code, fraction_code,
+    pol_ident, numpol, date_creation
 from od_polices</field>
     </record>
     <record id="attributes_mapping_values_3_import_police_r0" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">numpol</field>
       <field name="fields_id" ref="analytic.field_account_analytic_account_name"/>
@@ -79,7 +79,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r1" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="current_criteria">[('pol_ident','=','%s')]</field>
+      <field name="current_criteria">[('pol_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">pol_ident</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_pol_ident"/>
@@ -96,7 +96,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r3" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="related_criteria">[('ref_unique','=','%s')]</field>
+      <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">partner_id</field>
       <field name="fields_id" ref="analytic.field_account_analytic_account_partner_id"/>
@@ -106,7 +106,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r4" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="related_criteria">[('name','=','%s')]</field>
+      <field name="related_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">terfisc</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_property_account_position"/>
@@ -116,7 +116,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r5" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="related_criteria">[('ref_unique','=','%s')]</field>
+      <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">insured_id</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_insured_id"/>
@@ -134,7 +134,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r7" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">branche_code</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_branch_id"/>
@@ -144,7 +144,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r8" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">produit_code</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_ins_product_id"/>
@@ -154,7 +154,7 @@ from od_polices</field>
     <record id="attributes_mapping_values_3_import_police_r9" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
-      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">fraction_code</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_fraction_id"/>
@@ -176,14 +176,14 @@ from od_polices</field>
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
       <field name="sql_request">select distinct
-	ver_ident,ver_ptrpolident,ver_typemission,ver_datedeb,
-	ver_datefin,ver_number,
-	case
-		when is_last_situation = 0 then 'False'
-		else 'True'
-	end is_last_situation,
-	ver_datecre,
-	CONVERT(integer, right(ltrim(ver_number),1)) ver_serie,odp.terfisc terfisc
+    ver_ident,ver_ptrpolident,ver_typemission,ver_datedeb,
+    ver_datefin,ver_number,
+    case
+        when is_last_situation = 0 then 'False'
+        else 'True'
+    end is_last_situation,
+    ver_datecre,
+    CONVERT(integer, right(ltrim(ver_number),1)) ver_serie,odp.terfisc terfisc
 from od_versions odv
 left join od_polices odp on odp.pol_ident=odv.ver_ptrpolident
 order by ver_ptrpolident,ver_number
@@ -192,7 +192,7 @@ order by ver_ptrpolident,ver_number
     <record id="attributes_mapping_values_4_import_polices_versions_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
-      <field name="current_criteria">[('ver_ident','=','%s')]</field>
+      <field name="current_criteria">[('ver_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">ver_ident</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_ver_ident"/>
@@ -201,7 +201,7 @@ order by ver_ptrpolident,ver_number
     <record id="attributes_mapping_values_4_import_polices_versions_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
-      <field name="related_criteria">[('pol_ident','=','%s')]</field>
+      <field name="related_criteria">[('pol_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ver_ptrpolident</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_analytic_id"/>
@@ -212,7 +212,7 @@ order by ver_ptrpolident,ver_number
     <record id="attributes_mapping_values_4_import_polices_versions_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
-      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ver_typemission</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_stage_id_6208"/>
@@ -247,7 +247,7 @@ order by ver_ptrpolident,ver_number
     <record id="attributes_mapping_values_4_import_polices_versions_r6" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
-      <field name="related_criteria">[('name','=','%s')]</field>
+      <field name="related_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">terfisc</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_property_account_position"/>
@@ -261,10 +261,10 @@ order by ver_ptrpolident,ver_number
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
       <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
       <field name="sql_request">select distinct 
-	str(lpr_ident) lpr_ident,str(lpr_ptrprmident) lpr_ptrprmident,str(prm_ptrpolident) prm_ptrpolident,product_id,
-	RIGHT(product_id,5) type_risk_id,description,odprml.compte,
-	quantity,unit_price,te,tva,montant_ht,odprm.new_compte,
-	odprm.prm_ptrverident, str(odprml.lpr_ident) + '_' + str(odprm.prm_ptrverident) as lpr_prm
+    str(lpr_ident) lpr_ident,str(lpr_ptrprmident) lpr_ptrprmident,str(prm_ptrpolident) prm_ptrpolident,product_id,
+    RIGHT(product_id,5) type_risk_id,description,odprml.compte,
+    quantity,unit_price,te,tva,montant_ht,odprm.new_compte,
+    odprm.prm_ptrverident, str(odprml.lpr_ident) + '_' + str(odprm.prm_ptrverident) as lpr_prm
 from od_primes_lignes odprml
 left join od_primes odprm on odprm.prm_ident = odprml.lpr_ptrprmident
 where product_id != 'FRAI3'
@@ -273,7 +273,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
-      <field name="related_criteria">[('ver_ident','=','%s')]</field>
+      <field name="related_criteria">[('ver_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">prm_ptrverident</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_history_id"/>
@@ -283,7 +283,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
-      <field name="related_criteria">[('ref_unique','=','%s')]</field>
+      <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">new_compte</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_partner_id"/>
@@ -293,7 +293,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
-      <field name="related_criteria">[('code','=','%s')]</field>
+      <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">type_risk_id</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_type_risk_id"/>
@@ -303,7 +303,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
-      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">lpr_prm</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_name"/>
@@ -316,10 +316,10 @@ order by lpr_ptrprmident</field>
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
       <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
       <field name="sql_request">select distinct 
-	str(lpr_ident) lpr_ident,str(lpr_ptrprmident) lpr_ptrprmident,str(prm_ptrpolident) prm_ptrpolident,product_id,
-	RIGHT(product_id,5) type_risk_id,description,odprml.compte,
-	quantity,unit_price,te,tva,montant_ht,odprm.new_compte,
-	odprm.prm_ptrverident, str(odprml.lpr_ident) + '_' + str(odprm.prm_ptrverident) as lpr_prm
+    str(lpr_ident) lpr_ident,str(lpr_ptrprmident) lpr_ptrprmident,str(prm_ptrpolident) prm_ptrpolident,product_id,
+    RIGHT(product_id,5) type_risk_id,description,odprml.compte,
+    quantity,unit_price,te,tva,montant_ht,odprm.new_compte,
+    odprm.prm_ptrverident, str(odprml.lpr_ident) + '_' + str(odprm.prm_ptrverident) as lpr_prm
 from od_primes_lignes odprml
 left join od_primes odprm on odprm.prm_ident = odprml.lpr_ptrprmident
 where product_id != 'FRAI3'
@@ -328,7 +328,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
-      <field name="related_criteria">[('name','=','%s')]</field>
+      <field name="related_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">lpr_prm</field>
       <field name="fields_id" ref="insurance_management.field_risk_warranty_line_history_risk_line_id"/>
@@ -338,7 +338,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
-      <field name="related_criteria">[('default_code','=','%s')]</field>
+      <field name="related_criteria">[('default_code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">product_id</field>
       <field name="fields_id" ref="insurance_management.field_risk_warranty_line_warranty_id"/>
@@ -356,7 +356,7 @@ order by lpr_ptrprmident</field>
     <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
-      <field name="current_criteria">[('name','=','%s')]</field>
+      <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">lpr_prm</field>
       <field name="fields_id" ref="insurance_management.field_risk_warranty_line_name"/>
