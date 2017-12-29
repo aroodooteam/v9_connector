@@ -68,6 +68,8 @@
                             <label for="sql_request" string="SQL Request"/>
                             <field name="sql_request" nolabel="1"/>
                             <button string="Execute SQL" icon="gtk-ok" type="object" name="import_data"/>
+                            <button string="Reset TAXES" icon="gtk-ok" type="object" name="button_reset_taxes"/>
+                            <button string="Validate Invoice" icon="gtk-ok" type="object" name="validate_invoice"/>
                         </div>
                         <field name="comments" nolabel="1"/>
                     </sheet>
