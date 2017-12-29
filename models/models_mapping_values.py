@@ -5,6 +5,28 @@ logger = logging.getLogger(__name__)
 from openerp import api, exceptions, fields, models, _
 
 
+code_gra = ['02', '07', '19', '27', '28', '30', '74', '80', '85', '86', '93']
+code_sa = [
+    '01', '04', '05', '06', '09', '10', '12', '13', '15', '17', '1T', '21',
+    '22', '23', '25', '26', '29', '2D', '31', '33', '34', '37', '38', '39',
+    '3F', '42', '43', '44', '45', '46', '47', '48', '49', '4M', '51', '52',
+    '54', '55', '56', '57', '5A', '60', '62', '63', '64', '65', '67', '68',
+    '69', '6U', '71', '72', '73', '75', '76', '82', '83', '87', '88', '89',
+    '98']
+map_code_sa = {
+    '09': '99', '1T': '11', '60': '50', '62': '61', '63': '61', '64': '61',
+    '65': '18', '67': '03', '68': '18', '69': '03', '5A': '61', '25': '20',
+    '26': '20', '21': '20', '22': '20', '23': '20', '29': '20', '2D': '50',
+    '98': '11', '10': '99', '13': '11', '12': '99', '15': '11', '17': '11',
+    '55': '53', '54': '53', '57': '50', '56': '50', '51': '50', '52': '50',
+    '6U': '32', '88': '99', '89': '40', '82': '11', '83': '20', '87': '40',
+    '01': '18', '06': '11', '04': '11', '49': '40', '46': '40', '47': '50',
+    '44': '40', '45': '40', '42': '11', '43': '40', '3F': '20', '76': '70',
+    '75': '70', '4M': '40', '73': '16', '72': '16', '71': '70', '39': '20',
+    '38': '32', '48': '50', '33': '03', '31': '11', '05': '11', '37': '11',
+    '34': '11'}
+
+
 class ModelsMappingValues(models.Model):
     _name = 'models.mapping.values'
     _description = 'The Models and list of fields to import into Odoo'
@@ -35,17 +57,19 @@ class ModelsMappingValues(models.Model):
                     _('Can\'t execute SQL request %s' % e))
         if cr_sql:
             res = self.map_sql_todict(cr_sql)
+            logger.info('res1 = %s' % res)
             res = self.map_dict(res)
-            logger.info('res = %s' % res)
+            logger.info('res2 = %s' % res)
             # # uniq_field = self.get_uniq_field()
             rel_field = self.get_relationnal_field()
             logger.info('res_field = %s' % rel_field)
             if rel_field[0]:
                 res = self.recompute_dict_with_related_field(res, rel_field[0])
-                logger.info('=== data = %s' % res)
-            # logger.info('=== uniq_field = %s' % uniq_field)
-            # # self.insert_dict(res, uniq_field[0], rel_field[0])
-            # self.insert_dict(res, rel_field[0])
+                # logger.info('=== data = %s' % res)
+            # # logger.info('=== uniq_field = %s' % uniq_field)
+            # # # self.insert_dict(res, uniq_field[0], rel_field[0])
+            # # self.insert_dict(res, rel_field[0])
+            # logger.info('=== data = %s' % res)
             self.insert_dict(res)
         return True
 
@@ -61,6 +85,7 @@ class ModelsMappingValues(models.Model):
 
     @api.multi
     def map_dict(self, args=[]):
+        # trying to fix m2m field
         if not args:
             return []
         res = []
@@ -77,9 +102,21 @@ class ModelsMappingValues(models.Model):
                     else:
                         domain = '[]'
                     final_dom += eval(domain)
-                val.update({
-                    str(k.fields_id.name): arg.get(k.name, False),
-                })
+                if k.fields_id.ttype in ('many2many','one2many'):
+                    m2m = []
+                    if str(k.fields_id.name) in val:
+                        # convert value to list
+                        m2m.append(val.get(str(k.fields_id.name)))
+                        m2m.append(arg.get(k.name, False))
+                    else:
+                        m2m = arg.get(k.name, False)
+                    val.update({
+                        str(k.fields_id.name): m2m,
+                    })
+                else:
+                    val.update({
+                        str(k.fields_id.name): arg.get(k.name, False),
+                    })
             val.update({'domain': final_dom})
             res.append(val)
             val = {}
@@ -106,7 +143,8 @@ class ModelsMappingValues(models.Model):
                     {
                         k.fields_id.name: {
                             'domain': k.related_criteria,
-                            'model': k.rel_model_id.model
+                            'model': k.rel_model_id.model,
+                            'type': k.fields_id.ttype
                         }
                     }
                 )
@@ -123,6 +161,16 @@ class ModelsMappingValues(models.Model):
             for k,v in rel_dict.iteritems():
                 if k in val and val.get(k, False):
                     dyn_obj = self.env[v.get('model')]
+                    # manage m2m and o2m value
+                    # if v.get('type', False) in ('many2many', 'one2many'):
+                    #     domain = v.get('domain') % val.get(k)
+                    #     domain = eval(domain)
+                    #     for elt in val.get(k, False):
+                    #         domain = v.get('domain') % elt
+                    #         domain = eval(domain)
+                    #         dyn_ids = dyn_obj.search(domain)
+                    #         logger.info('=== dyn_ids_m2m = %s' % dyn_ids)
+
                     domain = v.get('domain') % val.get(k)
                     domain = eval(domain)
                     # logger.info('computed_loop_domain = %s' % domain)
@@ -135,13 +183,18 @@ class ModelsMappingValues(models.Model):
                             _('Error'),
                             _("No data found for %s with domain = %s" % (v.get('model'), domain))
                         )
+                    # if v.get('type', False) in ('many2many', 'one2many'):
                     elif dyn_ids and len(dyn_ids) > 1:
-                        "Verify the correct record to fix it"
-                        logger.info('=== Error: to much data found for %s with domain = %s' % (v.get('model'), domain))
-                        raise exceptions.Warning(
-                            _('Error'),
-                            _("To much data found for %s with domain = %s" % (v.get('model'), domain))
-                        )
+                        if v.get('type', False) in ('many2many', 'one2many'):
+                            # convert value
+                            val[k] = [(6, 0, tuple(dyn_ids.ids))]
+                        else:
+                            "Verify the correct record to fix it"
+                            logger.info('=== Error: to much data found for %s with domain = %s' % (v.get('model'), domain))
+                            raise exceptions.Warning(
+                                _('Error'),
+                                _("To much data found for %s with domain = %s" % (v.get('model'), domain))
+                            )
                     else:
                         val[k] = dyn_ids.id
             res.append(val)
@@ -164,10 +217,24 @@ class ModelsMappingValues(models.Model):
             if domain:
                 src_ids = model_obj.search(domain)
                 logger.info('src_ids = %s' % src_ids)
-                if not src_ids:
-                    model_obj.create(val)
-                elif src_ids and len(src_ids) == 1:
-                    src_ids.write(val)
+                if self._context.get('reset_taxes', False):
+                    # create nothing just update tax
+                    if not src_ids:
+                        logger.info('src_ids inexistant')
+                    else:
+                        src_ids.button_reset_taxes()
+                # open invoice
+                elif self._context.get('invoice_open', False):
+                    # create nothing just open invoice
+                    if not src_ids:
+                        logger.info('src_ids inexistant')
+                    else:
+                        src_ids.signal_workflow('invoice_open')
+                else:
+                    if not src_ids:
+                        model_obj.create(val)
+                    elif src_ids and len(src_ids) == 1:
+                        src_ids.write(val)
             tt -= 1
 
         # domain = False
@@ -181,5 +248,18 @@ class ModelsMappingValues(models.Model):
         #     # if not src_ids:
         #         # self.model_id.create(val)
 
-    # @api.multi
-    # def compute_domain(self, vals,)
+    @api.multi
+    def button_reset_taxes(self):
+        ctx = self._context.copy()
+        ctx.update({'reset_taxes': True})
+        self.with_context(ctx).import_data()
+
+    @api.multi
+    def invoice_open(self):
+        ctx = self._context.copy()
+        ctx.update({'invoice_open': True})
+        self.with_context(ctx).import_data()
+
+    @api.multi
+    def insert_with_internal_control(self):
+        return False
