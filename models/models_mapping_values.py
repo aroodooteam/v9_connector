@@ -5,6 +5,21 @@ logger = logging.getLogger(__name__)
 from openerp import api, exceptions, fields, models, _
 
 
+el_req = {
+    '0' : 'partner_title',
+    '1' : 'partner_customer',
+    '2' : 'partner_apporteur_a',
+    '3' : 'partner_apporteur_b',
+    '4' : 'product',
+    '5' : 'tax_te',
+    '6' : 'tax_tva',
+    '7' : 'journal',
+    '8' : 'account',
+    '9' : 'invoice_line',
+    '10' : 'invoice',
+    '11' : 'partner_ag',
+    '12' : 'partner_sa',
+}
 code_gra = ['02', '07', '19', '27', '28', '30', '74', '80', '85', '86', '93']
 code_sa = [
     '01', '04', '05', '06', '09', '10', '12', '13', '15', '17', '1T', '21',
@@ -210,6 +225,7 @@ class ModelsMappingValues(models.Model):
         logger.info('=== vals = %s' % len(vals))
         tt = len(vals)
         # logger.info('=== rel_crit = %s' % rel_crit)
+        inv_model = self.env.ref('account.model_account_invoice')
         for val in vals:
             domain = val.pop('domain')
             logger.info('== %s val = %s' % (tt, val))
@@ -217,19 +233,30 @@ class ModelsMappingValues(models.Model):
             if domain:
                 src_ids = model_obj.search(domain)
                 logger.info('src_ids = %s' % src_ids)
-                if self._context.get('reset_taxes', False):
-                    # create nothing just update tax
-                    if not src_ids:
-                        logger.info('src_ids inexistant')
+                if self.model_id == inv_model:
+                    if self._context.get('reset_taxes', False):
+                        # create nothing just update tax
+                        if not src_ids:
+                            logger.info('src_ids inexistant')
+                        else:
+                            src_ids.button_reset_taxes()
+                    # open invoice
+                    elif self._context.get('invoice_open', False):
+                        # create nothing just open invoice
+                        if not src_ids:
+                            logger.info('src_ids inexistant')
+                        else:
+                            src_ids.signal_workflow('invoice_open')
                     else:
-                        src_ids.button_reset_taxes()
-                # open invoice
-                elif self._context.get('invoice_open', False):
-                    # create nothing just open invoice
-                    if not src_ids:
-                        logger.info('src_ids inexistant')
-                    else:
-                        src_ids.signal_workflow('invoice_open')
+                        # control invoice account and data
+                        # logger.info('=== 0 - val = %s===' % val)
+                        # update account_id in val
+                        self.check_account(val)
+                        # logger.info('=== 1 - val = %s===' % val)
+                        if not src_ids:
+                            model_obj.create(val)
+                        elif src_ids and len(src_ids) == 1:
+                            src_ids.write(val)
                 else:
                     if not src_ids:
                         model_obj.create(val)
@@ -259,6 +286,16 @@ class ModelsMappingValues(models.Model):
         ctx = self._context.copy()
         ctx.update({'invoice_open': True})
         self.with_context(ctx).import_data()
+
+    # TODO
+    @api.multi
+    def check_account(self, vals):
+        acc_obj = self.env['account.account']
+        if vals.get('account_id', False) in code_gra:
+            vals['account_id'] = acc_obj.search([('code','=','411100')]).id
+        else:
+            vals['account_id'] = acc_obj.search([('code','=','410000')]).id
+        # return False
 
     @api.multi
     def insert_with_internal_control(self):
