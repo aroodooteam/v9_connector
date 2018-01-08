@@ -5,9 +5,12 @@
     "version": "0.1",
     "depends": [
         'account',
+        'account_invoice_inherit',
         'analytic',
         'base',
+        'commission',
         'insurance_management',
+        'product',
     ],
     "author": "Rakotomalala Haritiana <haryoran04@gmail.com>",
     "category": "Tools",
