@@ -41,7 +41,7 @@
                             <field name="driver"/>
                             <field name="version"/>
                             <field name="active"/>
-                            <button name="test_sqlserver_connection" type="object" string="Test Connection" icon="gtk-network"/>>
+                            <button name="test_sqlserver_connection" type="object" string="Test Connection" icon="gtk-network"/>
                         </group>
                     </sheet>
                 </form>
