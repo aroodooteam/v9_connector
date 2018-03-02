@@ -20,5 +20,6 @@
         'views/models_mapping_values_view.xml',
         'data/setting_data.xml',
         'data/model_mapping_values_data.xml',
+        'wizard/policy_generator_view.xml',
     ],
 }

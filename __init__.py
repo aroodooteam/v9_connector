@@ -1,5 +1,5 @@
 ## package holder
 
 import models
-# import wizard
+import wizard
 # import test
