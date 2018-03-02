@@ -6,7 +6,7 @@
       <field name="sql_model">od_polices</field>
       <field name="name">1- Import Client</field>
       <field name="model_id" ref="account.model_res_partner"/>
-      <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
+      <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
       <field name="sql_request">select distinct ref_client, nom_client, new_compte, 'True' as customer from od_polices
 </field>
     </record>
@@ -17,14 +17,14 @@
       <field name="check_rel_field" eval="False"/>
       <field name="name">nom_client</field>
       <field name="fields_id" ref="base.field_res_partner_name"/>
-      <field name="check_unicity" eval="True"/>
+      <field name="check_unicity" eval="False"/>
     </record>
     <record id="attributes_mapping_values_1_import_client_r1" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
       <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
       <field name="current_criteria">[('ref','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
-      <field name="name">ref_client</field>
+      <field name="name">new_compte</field>
       <field name="fields_id" ref="base.field_res_partner_ref"/>
       <field name="check_unicity" eval="True"/>
     </record>
@@ -42,8 +42,8 @@
       <field name="sql_model">od_polices</field>
       <field name="name">2- Import Territoire fiscal</field>
       <field name="model_id" ref="account.model_account_fiscal_position"/>
-      <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
-      <field name="sql_request">select terfisc from od_polices</field>
+      <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
+      <field name="sql_request">select distinct terfisc from od_polices</field>
     </record>
     <record id="attributes_mapping_values_2_import_territoire_fiscal_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_fiscal_position"/>
