@@ -50,13 +50,20 @@
             <field name="sql_model">od_polices</field>
             <field name="name">003- Import Police</field>
             <field name="model_id" ref="analytic.model_account_analytic_account"/>
-            <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
+            <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
             <field name="sql_request">select distinct
-                'True' as is_insurance, new_compte as partner_id,
-                terfisc, new_compte as insured_id, 'contract' as type,
-                branche_code, produit_code, fraction_code,
-                pol_ident, numpol, date_creation
-                from od_polices</field>
+                numpol, pol_ident,
+                'True' as is_insurance,
+                new_compte as partner_id,
+                terfisc, new_compte as insured_id,
+                'contract' as type, branche_code, produit_code,
+                fraction_code, max(date_creation) date_creation
+                from od_polices
+                where pol_ident in (select ver_ptrpolident from od_versions
+                where ver_ident in (select prm_ptrverident from od_primes where MMCPT='01' and prm_ptrverident != 0))
+                and pol_ident != 0
+                group by numpol, pol_ident, new_compte, terfisc, branche_code, produit_code, fraction_code
+                order by pol_ident</field>
         </record>
         <record id="amv_3_import_police_r0" model="attributes.mapping.values">
             <field name="model_id" ref="analytic.model_account_analytic_account"/>
@@ -87,7 +94,7 @@
         <record id="amv_3_import_police_r3" model="attributes.mapping.values">
             <field name="model_id" ref="analytic.model_account_analytic_account"/>
             <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
-            <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
+            <field name="related_criteria">[('ref','=','''%s''')]</field>
             <field name="check_rel_field" eval="True"/>
             <field name="name">partner_id</field>
             <field name="fields_id" ref="analytic.field_account_analytic_account_partner_id"/>
@@ -107,7 +114,7 @@
         <record id="amv_3_import_police_r5" model="attributes.mapping.values">
             <field name="model_id" ref="analytic.model_account_analytic_account"/>
             <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
-            <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
+            <field name="related_criteria">[('ref','=','''%s''')]</field>
             <field name="check_rel_field" eval="True"/>
             <field name="name">insured_id</field>
             <field name="fields_id" ref="insurance_management.field_account_analytic_account_insured_id"/>
@@ -165,20 +172,33 @@
             <field name="sql_model">od_versions</field>
             <field name="name">004- Import Polices Versions</field>
             <field name="model_id" ref="insurance_management.model_analytic_history"/>
-            <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
+            <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
             <field name="sql_request">select distinct
-                ver_ident,ver_ptrpolident,ver_typemission,ver_datedeb,
-                ver_datefin,ver_number,
+                ver_ident, ver_ptrpolident, ver_typemission, ver_datedeb,
+                ver_datefin, ver_number,
                 case
                 when is_last_situation = 0 then 'False'
                 else 'True'
                 end is_last_situation,
                 ver_datecre,
-                CONVERT(integer, right(ltrim(ver_number),1)) ver_serie,odp.terfisc terfisc
-                from od_versions odv
-                left join od_polices odp on odp.pol_ident=odv.ver_ptrpolident
-                order by ver_ptrpolident,ver_number
-            </field>
+                CONVERT(integer, right(ltrim(ver_number),1)) ver_serie,
+                odpol.terfisc terfisc
+                from od_versions odver
+                left join od_polices odpol on odpol.pol_ident=odver.ver_ptrpolident
+                where ver_ptrpolident in 
+                (
+                select distinct pol_ident from od_polices
+                where pol_ident in 
+                (
+                select ver_ptrpolident from od_versions
+                where ver_ident in 
+                (
+                select prm_ptrverident from od_primes where MMCPT='01' and prm_ptrverident != 0
+                )
+                )
+                and pol_ident != 0
+                )
+                order by odver.ver_ident</field>
         </record>
         <record id="amv_4_import_polices_versions_r0" model="attributes.mapping.values">
             <field name="model_id" ref="insurance_management.model_analytic_history"/>
@@ -812,6 +832,24 @@
             <field name="name">sor_code_product</field>
             <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_name"/>
             <field name="check_unicity" eval="False"/>
+        </record>
+        <record id="attributes_mapping_values_004_import_polices_versions_r0" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_analytic_history"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
+            <field name="check_rel_field" eval="False"/>
+            <field name="name">ver_number</field>
+            <field name="fields_id" ref="insurance_management.field_analytic_history_name"/>
+            <field name="check_unicity" eval="False"/>
+        </record>
+        <record id="attributes_mapping_values_004_import_polices_versions_r1" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_analytic_history"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
+            <field name="related_criteria">[('code','=','''%s''')]</field>
+            <field name="check_rel_field" eval="True"/>
+            <field name="name">ver_typemission</field>
+            <field name="fields_id" ref="insurance_management.field_analytic_history_stage_id_7163"/>
+            <field name="check_unicity" eval="False"/>
+            <field name="rel_model_id" ref="insurance_management.model_analytic_history_stage"/>
         </record>
     </data>
 </openerp>
