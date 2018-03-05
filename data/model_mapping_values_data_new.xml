@@ -182,9 +182,10 @@
                 end is_last_situation,
                 ver_datecre,
                 CONVERT(integer, right(ltrim(ver_number),1)) ver_serie,
-                odpol.terfisc terfisc
+                odpol.terfisc terfisc,odprm.code_agence
                 from od_versions odver
                 left join od_polices odpol on odpol.pol_ident=odver.ver_ptrpolident
+                left join od_primes odprm on odprm.prm_ptrverident=odver.ver_ident
                 where ver_ptrpolident in 
                 (
                 select distinct pol_ident from od_polices
@@ -957,6 +958,16 @@
             <field name="name">desc_ident</field>
             <field name="fields_id" ref="insurance_management.field_risk_description_line_comment"/>
             <field name="check_unicity" eval="True"/>
+        </record>
+        <record id="amv_004_import_polices_versions_r0" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_analytic_history"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
+            <field name="related_criteria">[('code', '=', '''%s''')]</field>
+            <field name="check_rel_field" eval="True"/>
+            <field name="name">code_agence</field>
+            <field name="fields_id" ref="insurance_management.field_analytic_history_agency_id"/>
+            <field name="check_unicity" eval="False"/>
+            <field name="rel_model_id" ref="account_journal_agency.model_base_agency"/>
         </record>
     </data>
 </openerp>
