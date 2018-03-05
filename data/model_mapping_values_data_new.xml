@@ -787,14 +787,34 @@
             <field name="sql_model">od_sor</field>
             <field name="name">05bis- sor (type de risk)</field>
             <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-            <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
-            <field name="sql_request">select 
-                sor_ident
-                ,ver_ident
-                ,ltrim(type_risk) type_risk
-                ,sor_code_product
-                ,type_sor
-                from od_sor</field>
+            <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
+            <field name="sql_request">select distinct
+                sor_ident, od_sor.ver_ident, type_risk, sor_code_product, type_sor
+                ,odpol.new_compte 
+                from od_sor
+                left join od_versions odver on odver.ver_ident=od_sor.ver_ident
+                left join od_polices odpol on odpol.pol_ident=odver.ver_ptrpolident
+                where od_sor.ver_ident in
+                (
+                select distinct ver_ident from od_versions
+                where ver_ptrpolident in 
+                (
+                select distinct pol_ident from od_polices
+                where pol_ident in 
+                (
+                select ver_ptrpolident from od_versions
+                where ver_ident in 
+                (
+                select prm_ptrverident from od_primes where MMCPT='01' and prm_ptrverident != 0
+                )
+                )
+                and pol_ident != 0
+                )
+                )
+                --and new_compte='4150142551'
+                --and type_sor = 'ADH'
+                order by sor_ident,od_sor.ver_ident
+            </field>
         </record>
         <record id="amv_05_sor_type_de_risk_r0" model="attributes.mapping.values">
             <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
@@ -833,7 +853,7 @@
             <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_name"/>
             <field name="check_unicity" eval="False"/>
         </record>
-        <record id="attributes_mapping_values_004_import_polices_versions_r0" model="attributes.mapping.values">
+        <record id="amv_004_import_polices_versions_r0" model="attributes.mapping.values">
             <field name="model_id" ref="insurance_management.model_analytic_history"/>
             <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
             <field name="check_rel_field" eval="False"/>
@@ -841,7 +861,7 @@
             <field name="fields_id" ref="insurance_management.field_analytic_history_name"/>
             <field name="check_unicity" eval="False"/>
         </record>
-        <record id="attributes_mapping_values_004_import_polices_versions_r1" model="attributes.mapping.values">
+        <record id="amv_004_import_polices_versions_r1" model="attributes.mapping.values">
             <field name="model_id" ref="insurance_management.model_analytic_history"/>
             <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
             <field name="related_criteria">[('code','=','''%s''')]</field>
@@ -850,6 +870,93 @@
             <field name="fields_id" ref="insurance_management.field_analytic_history_stage_id_7163"/>
             <field name="check_unicity" eval="False"/>
             <field name="rel_model_id" ref="insurance_management.model_analytic_history_stage"/>
+        </record>
+        <record id="amv_05bis_sor_type_de_risk_r0" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_05_sor_type_de_risk_r0"/>
+            <field name="related_criteria">[('ref','=', '''%s''')]</field>
+            <field name="check_rel_field" eval="True"/>
+            <field name="name">new_compte</field>
+            <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_partner_id"/>
+            <field name="check_unicity" eval="False"/>
+            <field name="rel_model_id" ref="account.model_res_partner"/>
+        </record>
+        <record id="mmv_006__descriptions_risk_description_line_r0" model="models.mapping.values">
+            <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
+            <field name="sql_model">od_descriptions</field>
+            <field name="name">006 - Descriptions (risk.description.line)</field>
+            <field name="model_id" ref="insurance_management.model_risk_description_line"/>
+            <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
+            <field name="sql_request">select distinct
+                desc_sor_ident, desc_code, desc_type_risk_code, desc_libelle, desc_valeur 
+                ,str(desc_sor_ident) + '_' + desc_code desc_ident
+                from od_descriptions
+                where desc_sor_ident in 
+                (
+                select distinct sor_ident from od_sor
+                where ver_ident in
+                (
+                select distinct ver_ident from od_versions
+                where ver_ptrpolident in 
+                (
+                select distinct pol_ident from od_polices
+                where pol_ident in 
+                (
+                select ver_ptrpolident from od_versions
+                where ver_ident in 
+                (
+                select prm_ptrverident from od_primes where MMCPT='01' and prm_ptrverident != 0
+                )
+                )
+                and pol_ident != 0
+                )
+                )
+                )
+                order by desc_sor_ident
+            </field>
+        </record>
+        <record id="amv_006__descriptions_risk_description_line_r0" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_risk_description_line"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_006__descriptions_risk_description_line_r0"/>
+            <field name="related_criteria">[('sor_ident', '=', '''%s''')]</field>
+            <field name="check_rel_field" eval="True"/>
+            <field name="name">desc_sor_ident</field>
+            <field name="fields_id" ref="insurance_management.field_risk_description_line_history_risk_line_id"/>
+            <field name="check_unicity" eval="False"/>
+            <field name="rel_model_id" ref="insurance_management.model_analytic_history_risk_line"/>
+        </record>
+        <record id="amv_006__descriptions_risk_description_line_r1" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_risk_description_line"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_006__descriptions_risk_description_line_r0"/>
+            <field name="check_rel_field" eval="False"/>
+            <field name="name">desc_code</field>
+            <field name="fields_id" ref="insurance_management.field_risk_description_line_code"/>
+            <field name="check_unicity" eval="False"/>
+        </record>
+        <record id="amv_006__descriptions_risk_description_line_r2" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_risk_description_line"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_006__descriptions_risk_description_line_r0"/>
+            <field name="check_rel_field" eval="False"/>
+            <field name="name">desc_libelle</field>
+            <field name="fields_id" ref="insurance_management.field_risk_description_line_name"/>
+            <field name="check_unicity" eval="False"/>
+        </record>
+        <record id="amv_006__descriptions_risk_description_line_r3" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_risk_description_line"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_006__descriptions_risk_description_line_r0"/>
+            <field name="check_rel_field" eval="False"/>
+            <field name="name">desc_valeur</field>
+            <field name="fields_id" ref="insurance_management.field_risk_description_line_value"/>
+            <field name="check_unicity" eval="False"/>
+        </record>
+        <record id="amv_006__descriptions_risk_description_line_r4" model="attributes.mapping.values">
+            <field name="model_id" ref="insurance_management.model_risk_description_line"/>
+            <field name="models_mapping_id" ref="v9_connector.mmv_006__descriptions_risk_description_line_r0"/>
+            <field name="current_criteria">[('comment', '=', '''%s''')]</field>
+            <field name="check_rel_field" eval="False"/>
+            <field name="name">desc_ident</field>
+            <field name="fields_id" ref="insurance_management.field_risk_description_line_comment"/>
+            <field name="check_unicity" eval="True"/>
         </record>
     </data>
 </openerp>
