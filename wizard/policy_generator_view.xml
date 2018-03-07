@@ -30,6 +30,8 @@
                         <group colspan="4">
                             <button name="GeneratePolicy" type="object" string="Generate Policy" icon="gtk-ok"/>
                             <button name="GenerateVersion" type="object" string="Generate Version" icon="gtk-ok"/>
+                            <button name="GenerateRiskLine" type="object" string="Generate Risk" icon="gtk-ok"/>
+                            <button name="GenerateWarrantyLine" type="object" string="Generate Warranty" icon="gtk-ok"/>
                         </group>
                     </sheet>
                 </form>
