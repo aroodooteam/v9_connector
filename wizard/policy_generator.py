@@ -43,7 +43,11 @@ class PolicyGenerator(models.TransientModel):
         if inv_src:
             inv_rds = inv_src.read(inv_field)
             for inv_rd in inv_rds:
-                buf_val = {'is_insurance': True}
+                buf_val = {'is_insurance': True, 'type': 'contract'}
+                # search branch and product from inv_line
+                complement_analytic = self.GetBranch(inv_rd.get('id', False))
+                buf_val.update(complement_analytic)
+                logger.info('buf_val = %s' % buf_val)
                 for k,v in inv_rd.iteritems():
                     if k not in ('final_customer_id', 'id'):
                         buf_val[map_polinv.get(k)] = v
@@ -64,16 +68,35 @@ class PolicyGenerator(models.TransientModel):
         # check if policy allready exist
         pol_obj = self.env['account.analytic.account']
         res = []
+        i = 0
         for vals in vals_list:
+            i += 1
+            logger.info('=== loops search policy %s / %s' % (i, len(vals_list)))
             pol_ids = pol_obj.search([('name', '=', vals.get('name'))])
-            logger.info('pol_ids = %s' % pol_ids)
             if not pol_ids:
-                res.append(pol_ids.create(vals))
+                res.append(pol_ids.create(vals).ids[0])
             else:
                 res += pol_ids.ids
-                pol_ids.update(vals)
+                # pol_ids.update(vals)
         res = list(set(res))
         return res
+
+    @api.multi
+    def GetBranch(self, inv_id):
+        if not inv_id:
+            return False
+        logger.info('inv = %s' % inv_id)
+        res = {}
+        inv_line_obj = self.env['account.invoice.line']
+        inv_line_ids = inv_line_obj.search([('invoice_id', '=', inv_id)])
+        for inv_line_id in inv_line_ids:
+            if inv_line_id.product_id.branch_id and inv_line_id.product_id.ins_product_id:
+                res['branch_id'] = inv_line_id.product_id.branch_id.id
+                res['ins_product_id'] = inv_line_id.product_id.ins_product_id.id
+                break
+        if res:
+            return res
+        return False
 
     @api.multi
     def GenerateVersion(self):
@@ -85,6 +108,7 @@ class PolicyGenerator(models.TransientModel):
         logger.info('\n === values = %s' % values)
         policies = values.get('policy', [])
         hist_vals = []
+        res = []
         for policy in pol_obj.browse(policies):
             logger.info('%s -> %s' % (policy.name, policy.id))
             # search invoice
@@ -103,10 +127,79 @@ class PolicyGenerator(models.TransientModel):
                     'ending_date': inv_id.prm_datefin,
                     'agency_id': inv_id.journal_id.agency_id.id or False,
                     'invoice_id': inv_id.id,
+                    'stage_id': self.env.ref('insurance_management.avenant').id
                 }
                 if c == inv_len:
                     hist_buf['is_last_situation'] = True
-                if not hist_obj.search([('name','=', hist_buf.get('name'))]):
+                hist_ids = hist_obj.search([('name','=', hist_buf.get('name'))])
+                if not hist_ids:
                     logger.info('===> create history')
-                    hist_obj.create(hist_buf)
-        return True
+                    res.append(hist_obj.create(hist_buf).id)
+                else:
+                    # hist_ids.update(hist_buf)
+                    res += hist_ids.ids
+        return res
+
+    @api.multi
+    def GenerateRiskLine(self):
+        ver_ids = self.GenerateVersion()
+        logger.info('\n === ver_ids = %s' % ver_ids)
+        ver_obj = self.env['analytic.history']
+        risk_obj = self.env['analytic_history.risk.line']
+        ver_ids = ver_obj.browse(ver_ids)
+        res = []
+        for ver_id in ver_ids:
+            risk_data = self.GetTypeRiskFromInvoice(ver_id, ver_id.invoice_id)
+            logger.info('risk_data = %s' % risk_data)
+            for k,v in risk_data.iteritems():
+                risk_ids = risk_obj.search([('history_id', '=', v.get('history_id')),('type_risk_id', '=', v.get('type_risk_id'))])
+                if not risk_ids:
+                    res.append(risk_obj.create(v).id)
+                else:
+                    # risk_ids.update(v)
+                    res += risk_ids.ids
+        return res
+
+    @api.multi
+    def GetTypeRiskFromInvoice(self, ver, inv):
+        if not inv:
+            return False
+        risk_buf = {}
+        for inv_line in inv.invoice_line:
+            vals_buf = {
+                'history_id': ver.id,
+                'partner_id': ver.analytic_id.partner_id.id,
+                'type_risk_id': inv_line.product_id.type_risk_id.id,
+                'name': inv_line.name
+            }
+            if inv_line.product_id.type_risk_id.id not in risk_buf.keys() and inv_line.product_id.default_code not in ('ACCM','ACCT','ACCV'):
+                risk_buf[inv_line.product_id.type_risk_id.id] = vals_buf
+        return risk_buf
+
+    @api.multi
+    def GenerateWarrantyLine(self):
+        risk_data = self.GenerateRiskLine()
+        logger.info('risk_data_wrt = %s' % risk_data)
+        risk_obj = self.env['analytic_history.risk.line']
+        warranty_obj = self.env['risk.warranty.line']
+        risk_ids = risk_obj.browse(risk_data)
+        res = []
+        len_risk = len(risk_ids)
+        i = 0
+        for risk_id in risk_ids:
+            i += 1
+            logger.info('=== loop for warranty %s / %s' % (i,len_risk))
+            for inv_line in risk_id.history_id.invoice_id.invoice_line:
+                vals = {}
+                if risk_id.type_risk_id == inv_line.product_id.type_risk_id:
+                    vals['warranty_id'] = inv_line.product_id.id
+                    vals['name'] = inv_line.product_id.name
+                    vals['proratee_net_amount'] = inv_line.price_unit
+                    vals['history_risk_line_id'] = risk_id.id
+                    warranty_ids = warranty_obj.search([('warranty_id','=',inv_line.product_id.id),('history_risk_line_id','=',risk_id.id)])
+                    if not warranty_ids:
+                        res.append(warranty_obj.create(vals).id)
+                    else:
+                        # warranty_ids.update(vals)
+                        res += warranty_ids.ids
+        return res
