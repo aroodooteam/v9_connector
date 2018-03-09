@@ -107,19 +107,19 @@ class PolicyGenerator(models.TransientModel):
         values = self.GeneratePolicy()
         logger.info('\n === values = %s' % values)
         policies = values.get('policy', [])
-        hist_vals = []
         res = []
+        i = 0
         for policy in pol_obj.browse(policies):
-            logger.info('%s -> %s' % (policy.name, policy.id))
+            i += 1
+            logger.info('%s -> %s (%s / %s)' % (policy.name, policy.id, i, len(policies)))
             # search invoice
             inv_ids = inv_obj.search([('pol_numpol', '=', policy.name), ('id','in', values.get('invoice'))], order='prm_datedeb')
-            logger.info('=== inv_ids = %s' % inv_ids.mapped('prm_datedeb'))
+            # logger.info('=== inv_ids = %s' % inv_ids.mapped('prm_datedeb'))
             inv_len = len(inv_ids)
             c = 0
-            hist_pol = []
             for inv_id in inv_ids:
                 c += 1
-                logger.info('inv_len = %s ?= %s c' % (inv_len,c))
+                # logger.info('inv_len = %s ?= %s c' % (inv_len,c))
                 hist_buf = {
                     'name': policy.name + '_' + str(c).zfill(4),
                     'analytic_id': policy.id,
@@ -133,7 +133,7 @@ class PolicyGenerator(models.TransientModel):
                     hist_buf['is_last_situation'] = True
                 hist_ids = hist_obj.search([('name','=', hist_buf.get('name'))])
                 if not hist_ids:
-                    logger.info('===> create history')
+                    # logger.info('===> create history')
                     res.append(hist_obj.create(hist_buf).id)
                 else:
                     # hist_ids.update(hist_buf)
