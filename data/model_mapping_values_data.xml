@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-    <record id="models_mapping_values_1_import_client_r0" model="models.mapping.values">
+    <record id="mmv_1_import_client_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_polices</field>
       <field name="name">1- Import Client</field>
       <field name="model_id" ref="account.model_res_partner"/>
       <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
       <field name="sql_request">select distinct ref_client, nom_client, new_compte, 'True' as customer from od_polices
-</field>
+    </field>
     </record>
-    <record id="attributes_mapping_values_1_import_client_r0" model="attributes.mapping.values">
+    <record id="amv_1_import_client_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_1_import_client_r0"/>
       <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">nom_client</field>
       <field name="fields_id" ref="base.field_res_partner_name"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_1_import_client_r1" model="attributes.mapping.values">
+    <record id="amv_1_import_client_r1" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_1_import_client_r0"/>
       <field name="current_criteria">[('ref','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">new_compte</field>
       <field name="fields_id" ref="base.field_res_partner_ref"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_1_import_client_r2" model="attributes.mapping.values">
+    <record id="amv_1_import_client_r2" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_res_partner"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_1_import_client_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_1_import_client_r0"/>
       <field name="current_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">new_compte</field>
       <field name="fields_id" ref="insurance_management.field_res_partner_ref_unique"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="models_mapping_values_2_import_territoire_fiscal_r0" model="models.mapping.values">
+    <record id="mmv_2_import_territoire_fiscal_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_polices</field>
       <field name="name">2- Import Territoire fiscal</field>
@@ -45,16 +45,16 @@
       <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
       <field name="sql_request">select distinct terfisc from od_polices</field>
     </record>
-    <record id="attributes_mapping_values_2_import_territoire_fiscal_r0" model="attributes.mapping.values">
+    <record id="amv_2_import_territoire_fiscal_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_fiscal_position"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_2_import_territoire_fiscal_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_2_import_territoire_fiscal_r0"/>
       <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">terfisc</field>
       <field name="fields_id" ref="account.field_account_fiscal_position_name"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="models_mapping_values_3_import_police_r0" model="models.mapping.values">
+    <record id="mmv_3_import_police_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_polices</field>
       <field name="name">3- Import Police</field>
@@ -67,35 +67,35 @@
     pol_ident, numpol, date_creation
 from od_polices</field>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r0" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r0" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">numpol</field>
       <field name="fields_id" ref="analytic.field_account_analytic_account_name"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r1" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r1" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="current_criteria">[('pol_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">pol_ident</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_pol_ident"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r2" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r2" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">is_insurance</field>
       <field name="fields_id" ref="insurance_management.field_account_analytic_account_is_insurance"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r3" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r3" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">partner_id</field>
@@ -103,9 +103,9 @@ from od_polices</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_res_partner"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r4" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r4" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="related_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">terfisc</field>
@@ -113,9 +113,9 @@ from od_polices</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_fiscal_position"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r5" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r5" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">insured_id</field>
@@ -123,17 +123,17 @@ from od_polices</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_res_partner"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r6" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r6" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">type</field>
       <field name="fields_id" ref="analytic.field_account_analytic_account_type"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r7" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r7" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">branche_code</field>
@@ -141,9 +141,9 @@ from od_polices</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_insurance_branch"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r8" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r8" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">produit_code</field>
@@ -151,9 +151,9 @@ from od_polices</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_insurance_product"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r9" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r9" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">fraction_code</field>
@@ -161,15 +161,15 @@ from od_polices</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_insurance_fraction"/>
     </record>
-    <record id="attributes_mapping_values_3_import_police_r10" model="attributes.mapping.values">
+    <record id="amv_3_import_police_r10" model="attributes.mapping.values">
       <field name="model_id" ref="analytic.model_account_analytic_account"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_3_import_police_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_3_import_police_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">date_creation</field>
       <field name="fields_id" ref="analytic.field_account_analytic_account_date_start"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="models_mapping_values_4_import_polices_versions_r0" model="models.mapping.values">
+    <record id="mmv_4_import_polices_versions_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_versions</field>
       <field name="name">4- Import Polices Versions</field>
@@ -189,18 +189,18 @@ left join od_polices odp on odp.pol_ident=odv.ver_ptrpolident
 order by ver_ptrpolident,ver_number
 </field>
     </record>
-    <record id="attributes_mapping_values_4_import_polices_versions_r0" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="current_criteria">[('ver_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">ver_ident</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_ver_ident"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_4_import_polices_versions_r1" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="related_criteria">[('pol_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ver_ptrpolident</field>
@@ -209,9 +209,9 @@ order by ver_ptrpolident,ver_number
       <field name="rel_model_id" ref="analytic.model_account_analytic_account"/>
     </record>
     <!--
-    <record id="attributes_mapping_values_4_import_polices_versions_r2" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ver_typemission</field>
@@ -220,33 +220,33 @@ order by ver_ptrpolident,ver_number
       <field name="rel_model_id" ref="insurance_management.model_analytic_history_stage"/>
     </record>
     -->
-    <record id="attributes_mapping_values_4_import_polices_versions_r3" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">ver_datedeb</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_starting_date"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_4_import_polices_versions_r4" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r4" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">ver_datefin</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_ending_date"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_4_import_polices_versions_r5" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r5" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">is_last_situation</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_is_last_situation"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_4_import_polices_versions_r6" model="attributes.mapping.values">
+    <record id="amv_4_import_polices_versions_r6" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_4_import_polices_versions_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_4_import_polices_versions_r0"/>
       <field name="related_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">terfisc</field>
@@ -254,7 +254,7 @@ order by ver_ptrpolident,ver_number
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_fiscal_position"/>
     </record>
-    <record id="models_mapping_values_5_import_type_de_risques_objet_de_risque_r0" model="models.mapping.values">
+    <record id="mmv_5_import_type_de_risques_objet_de_risque_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_primes_lignes</field>
       <field name="name">5- Import type de risques (Objet de risque)</field>
@@ -270,9 +270,9 @@ left join od_primes odprm on odprm.prm_ident = odprml.lpr_ptrprmident
 where product_id != 'FRAI3'
 order by lpr_ptrprmident</field>
     </record>
-    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r0" model="attributes.mapping.values">
+    <record id="amv_5_import_type_de_risques_objet_de_risque_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_5_import_type_de_risques_objet_de_risque_r0"/>
       <field name="related_criteria">[('ver_ident','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">prm_ptrverident</field>
@@ -280,9 +280,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_analytic_history"/>
     </record>
-    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r1" model="attributes.mapping.values">
+    <record id="amv_5_import_type_de_risques_objet_de_risque_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_5_import_type_de_risques_objet_de_risque_r0"/>
       <field name="related_criteria">[('ref_unique','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">new_compte</field>
@@ -290,9 +290,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_res_partner"/>
     </record>
-    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r2" model="attributes.mapping.values">
+    <record id="amv_5_import_type_de_risques_objet_de_risque_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_5_import_type_de_risques_objet_de_risque_r0"/>
       <field name="related_criteria">[('code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">type_risk_id</field>
@@ -300,16 +300,16 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_insurance_type_risk"/>
     </record>
-    <record id="attributes_mapping_values_5_import_type_de_risques_objet_de_risque_r3" model="attributes.mapping.values">
+    <record id="amv_5_import_type_de_risques_objet_de_risque_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_5_import_type_de_risques_objet_de_risque_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_5_import_type_de_risques_objet_de_risque_r0"/>
       <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">lpr_prm</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_name"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="models_mapping_values_6_import_garantie_dans_type_de_risques_r0" model="models.mapping.values">
+    <record id="mmv_6_import_garantie_dans_type_de_risques_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_primes_lignes</field>
       <field name="name">6- Import Garantie dans type de risques</field>
@@ -325,9 +325,9 @@ left join od_primes odprm on odprm.prm_ident = odprml.lpr_ptrprmident
 where product_id != 'FRAI3'
 order by lpr_ptrprmident</field>
     </record>
-    <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r0" model="attributes.mapping.values">
+    <record id="amv_6_import_garantie_dans_type_de_risques_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_6_import_garantie_dans_type_de_risques_r0"/>
       <field name="related_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">lpr_prm</field>
@@ -335,9 +335,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_analytic_history_risk_line"/>
     </record>
-    <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r1" model="attributes.mapping.values">
+    <record id="amv_6_import_garantie_dans_type_de_risques_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_6_import_garantie_dans_type_de_risques_r0"/>
       <field name="related_criteria">[('default_code','=','''%s''')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">product_id</field>
@@ -345,24 +345,24 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="product.model_product_product"/>
     </record>
-    <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r2" model="attributes.mapping.values">
+    <record id="amv_6_import_garantie_dans_type_de_risques_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_6_import_garantie_dans_type_de_risques_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">montant_ht</field>
       <field name="fields_id" ref="insurance_management.field_risk_warranty_line_proratee_net_amount"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_6_import_garantie_dans_type_de_risques_r3" model="attributes.mapping.values">
+    <record id="amv_6_import_garantie_dans_type_de_risques_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_risk_warranty_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_6_import_garantie_dans_type_de_risques_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_6_import_garantie_dans_type_de_risques_r0"/>
       <field name="current_criteria">[('name','=','''%s''')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">lpr_prm</field>
       <field name="fields_id" ref="insurance_management.field_risk_warranty_line_name"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="models_mapping_values_07_primes_r0" model="models.mapping.values">
+    <record id="mmv_07_primes_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_primes</field>
       <field name="name">07- primes</field>
@@ -392,18 +392,18 @@ order by lpr_ptrprmident</field>
 from od_primes
 where code_agence is not null</field>
     </record>
-    <record id="attributes_mapping_values_07_primes_r0" model="attributes.mapping.values">
+    <record id="amv_07_primes_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="current_criteria">[('comment','=','%s')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">prm_ident</field>
       <field name="fields_id" ref="account.field_account_invoice_comment"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r1" model="attributes.mapping.values">
+    <record id="amv_07_primes_r1" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="related_criteria">[('pol_ident','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">prm_ptrpolident</field>
@@ -411,9 +411,9 @@ where code_agence is not null</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="analytic.model_account_analytic_account"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r2" model="attributes.mapping.values">
+    <record id="amv_07_primes_r2" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="related_criteria">[('ver_ident','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">prm_ptrverident</field>
@@ -421,17 +421,17 @@ where code_agence is not null</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_analytic_history"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r3" model="attributes.mapping.values">
+    <record id="amv_07_primes_r3" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">pol_numpol</field>
       <field name="fields_id" ref="account_invoice_inherit.field_account_invoice_pol_numpol"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r4" model="attributes.mapping.values">
+    <record id="amv_07_primes_r4" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="related_criteria">[('ref','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ref_client</field>
@@ -439,9 +439,9 @@ where code_agence is not null</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_res_partner"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r5" model="attributes.mapping.values">
+    <record id="amv_07_primes_r5" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="related_criteria">[('ref','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ref_client</field>
@@ -449,41 +449,41 @@ where code_agence is not null</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_res_partner"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r6" model="attributes.mapping.values">
+    <record id="amv_07_primes_r6" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">date_effet</field>
       <field name="fields_id" ref="account_invoice_inherit.field_account_invoice_prm_datedeb"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r7" model="attributes.mapping.values">
+    <record id="amv_07_primes_r7" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">date_fin</field>
       <field name="fields_id" ref="account_invoice_inherit.field_account_invoice_prm_datefin"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r8" model="attributes.mapping.values">
+    <record id="amv_07_primes_r8" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">date_facture</field>
       <field name="fields_id" ref="account.field_account_invoice_date_invoice"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r9" model="attributes.mapping.values">
+    <record id="amv_07_primes_r9" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">num_quittance</field>
       <field name="fields_id" ref="account_invoice_inherit.field_account_invoice_prm_numero_quittance"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r10" model="attributes.mapping.values">
+    <record id="amv_07_primes_r10" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="related_criteria">[('name','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">terfisc</field>
@@ -491,9 +491,9 @@ where code_agence is not null</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_fiscal_position"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r11" model="attributes.mapping.values">
+    <record id="amv_07_primes_r11" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="related_criteria">[('code','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">journal</field>
@@ -501,23 +501,23 @@ where code_agence is not null</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_journal"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r12" model="attributes.mapping.values">
+    <record id="amv_07_primes_r12" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">currency_id</field>
       <field name="fields_id" ref="account.field_account_invoice_currency_id"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_07_primes_r13" model="attributes.mapping.values">
+    <record id="amv_07_primes_r13" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_07_primes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_07_primes_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">code_agence</field>
       <field name="fields_id" ref="account.field_account_invoice_account_id"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="models_mapping_values_08_primes_lignes_sans_accessoires_r0" model="models.mapping.values">
+    <record id="mmv_08_primes_lignes_sans_accessoires_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_primes_lignes</field>
       <field name="name">08- primes lignes sans accessoires</field>
@@ -548,18 +548,18 @@ where product_id != 'FRAIS'
 and lpr_ptrprmident!= 2080177544
 order by lpr_ptrprmident</field>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r0" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="current_criteria">[('name','=','%s')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">lpr_ident</field>
       <field name="fields_id" ref="account.field_account_invoice_line_name"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r1" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r1" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="related_criteria">[('comment','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">lpr_ptrprmident</field>
@@ -567,9 +567,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_invoice"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r2" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r2" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="related_criteria">[('default_code','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">product_id</field>
@@ -577,9 +577,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="product.model_product_product"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r3" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r3" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="related_criteria">[('code','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">compte</field>
@@ -587,33 +587,33 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_account"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r4" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r4" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">quantity</field>
       <field name="fields_id" ref="account.field_account_invoice_line_quantity"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r5" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r5" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">unit_price</field>
       <field name="fields_id" ref="account.field_account_invoice_line_price_unit"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r6" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r6" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">montant_ht</field>
       <field name="fields_id" ref="account.field_account_invoice_line_price_subtotal"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r7" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r7" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="related_criteria">[('description','in',%s)]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">description_te</field>
@@ -621,9 +621,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_tax"/>
     </record>
-    <record id="attributes_mapping_values_08_primes_lignes_sans_accessoires_r8" model="attributes.mapping.values">
+    <record id="amv_08_primes_lignes_sans_accessoires_r8" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_08_primes_lignes_sans_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_08_primes_lignes_sans_accessoires_r0"/>
       <field name="related_criteria">[('description','in',%s)]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">description_tva</field>
@@ -631,7 +631,7 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_tax"/>
     </record>
-    <record id="models_mapping_values_09_primes_lignes_accessoires_r0" model="models.mapping.values">
+    <record id="mmv_09_primes_lignes_accessoires_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_primes_lignes</field>
       <field name="name">09- primes lignes accessoires</field>
@@ -662,18 +662,18 @@ where product_id = 'FRAIS'
 and lpr_ptrprmident!= 2080177544
 order by lpr_ptrprmident</field>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r0" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="current_criteria">[('name','=','%s')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">lpr_ident</field>
       <field name="fields_id" ref="account.field_account_invoice_line_name"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r1" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r1" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="related_criteria">[('comment','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">lpr_ptrprmident</field>
@@ -681,9 +681,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_invoice"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r2" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r2" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="related_criteria">[('default_code','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">product_id</field>
@@ -691,9 +691,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="product.model_product_product"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r3" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r3" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="related_criteria">[('code','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">compte</field>
@@ -701,25 +701,25 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_account"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r4" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r4" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">quantity</field>
       <field name="fields_id" ref="account.field_account_invoice_line_quantity"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r5" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r5" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">unit_price</field>
       <field name="fields_id" ref="account.field_account_invoice_line_price_unit"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r6" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r6" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="related_criteria">[('description','in',%s)]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">description_te</field>
@@ -727,9 +727,9 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_tax"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r7" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r7" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="related_criteria">[('description','in',%s)]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">description_tva</field>
@@ -737,15 +737,15 @@ order by lpr_ptrprmident</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="account.model_account_tax"/>
     </record>
-    <record id="attributes_mapping_values_09_primes_lignes_accessoires_r8" model="attributes.mapping.values">
+    <record id="amv_09_primes_lignes_accessoires_r8" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_09_primes_lignes_accessoires_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_09_primes_lignes_accessoires_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">montant_ht</field>
       <field name="fields_id" ref="account.field_account_invoice_line_price_subtotal"/>
       <field name="check_unicity" eval="False"/>
     </record>
-    <record id="models_mapping_values_10_primes_reset_taxes_r0" model="models.mapping.values">
+    <record id="mmv_10_primes_reset_taxes_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_primes</field>
       <field name="name">10- primes reset taxes</field>
@@ -774,41 +774,61 @@ order by lpr_ptrprmident</field>
 from od_primes
 where code_agence is not null</field>
     </record>
-    <record id="attributes_mapping_values_10_primes_reset_taxes_r0" model="attributes.mapping.values">
+    <record id="amv_10_primes_reset_taxes_r0" model="attributes.mapping.values">
       <field name="model_id" ref="account.model_account_invoice"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_10_primes_reset_taxes_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_10_primes_reset_taxes_r0"/>
       <field name="current_criteria">[('comment','=','%s')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">prm_ident</field>
       <field name="fields_id" ref="account.field_account_invoice_comment"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="models_mapping_values_05_sor_type_de_risk_r0" model="models.mapping.values">
+    <record id="mmv_05_sor_type_de_risk_r0" model="models.mapping.values">
       <!-- one2many field 'attributes_ids' managed on the attributes.mapping.values side -->
       <field name="sql_model">od_sor</field>
-      <field name="name">05- sor (type de risk)</field>
+      <field name="name">05bis- sor (type de risk)</field>
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="server_id" ref="v9_connector.sql_server_contract_data_r0"/>
-      <field name="sql_request">select 
-	sor_ident
-	,ver_ident
-	,ltrim(type_risk) type_risk
-	,sor_code_product
-	,type_sor
-from od_sor</field>
+      <field name="server_id" ref="v9_connector.parameter_setting_10_0_0_92_r0"/>
+      <field name="sql_request">select distinct
+                sor_ident, od_sor.ver_ident, type_risk, sor_code_product, type_sor
+                ,odpol.new_compte 
+                from od_sor
+                left join od_versions odver on odver.ver_ident=od_sor.ver_ident
+                left join od_polices odpol on odpol.pol_ident=odver.ver_ptrpolident
+                where od_sor.ver_ident in
+                (
+                select distinct ver_ident from od_versions
+                where ver_ptrpolident in 
+                (
+                select distinct pol_ident from od_polices
+                where pol_ident in 
+                (
+                select ver_ptrpolident from od_versions
+                where ver_ident in 
+                (
+                select prm_ptrverident from od_primes where MMCPT='01' and prm_ptrverident != 0
+                )
+                )
+                and pol_ident != 0
+                )
+                )
+                --and new_compte='4150142551'
+                --and type_sor = 'ADH'
+                order by sor_ident,od_sor.ver_ident
+            </field>
     </record>
-    <record id="attributes_mapping_values_05_sor_type_de_risk_r0" model="attributes.mapping.values">
+    <record id="amv_05_sor_type_de_risk_r0" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_05_sor_type_de_risk_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_05_sor_type_de_risk_r0"/>
       <field name="current_criteria">[('sor_ident','=','%s')]</field>
       <field name="check_rel_field" eval="False"/>
       <field name="name">sor_ident</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_sor_ident"/>
       <field name="check_unicity" eval="True"/>
     </record>
-    <record id="attributes_mapping_values_05_sor_type_de_risk_r1" model="attributes.mapping.values">
+    <record id="amv_05_sor_type_de_risk_r1" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_05_sor_type_de_risk_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_05_sor_type_de_risk_r0"/>
       <field name="related_criteria">[('ver_ident','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">ver_ident</field>
@@ -816,9 +836,9 @@ from od_sor</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_analytic_history"/>
     </record>
-    <record id="attributes_mapping_values_05_sor_type_de_risk_r2" model="attributes.mapping.values">
+    <record id="amv_05_sor_type_de_risk_r2" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_05_sor_type_de_risk_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_05_sor_type_de_risk_r0"/>
       <field name="related_criteria">[('code','=','%s')]</field>
       <field name="check_rel_field" eval="True"/>
       <field name="name">type_risk</field>
@@ -826,9 +846,9 @@ from od_sor</field>
       <field name="check_unicity" eval="False"/>
       <field name="rel_model_id" ref="insurance_management.model_insurance_type_risk"/>
     </record>
-    <record id="attributes_mapping_values_05_sor_type_de_risk_r3" model="attributes.mapping.values">
+    <record id="amv_05_sor_type_de_risk_r3" model="attributes.mapping.values">
       <field name="model_id" ref="insurance_management.model_analytic_history_risk_line"/>
-      <field name="models_mapping_id" ref="v9_connector.models_mapping_values_05_sor_type_de_risk_r0"/>
+      <field name="models_mapping_id" ref="v9_connector.mmv_05_sor_type_de_risk_r0"/>
       <field name="check_rel_field" eval="False"/>
       <field name="name">sor_code_product</field>
       <field name="fields_id" ref="insurance_management.field_analytic_history_risk_line_name"/>
