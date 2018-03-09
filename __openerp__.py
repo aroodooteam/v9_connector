@@ -6,6 +6,7 @@
     "depends": [
         'account',
         'account_invoice_inherit',
+        'account_journal_agency',
         'analytic',
         'base',
         'commission',
