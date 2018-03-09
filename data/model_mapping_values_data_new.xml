@@ -868,7 +868,7 @@
             <field name="related_criteria">[('code','=','''%s''')]</field>
             <field name="check_rel_field" eval="True"/>
             <field name="name">ver_typemission</field>
-            <field name="fields_id" ref="insurance_management.field_analytic_history_stage_id_7163"/>
+            <field name="fields_id" ref="insurance_management.field_analytic_history_stage_id_7173"/>
             <field name="check_unicity" eval="False"/>
             <field name="rel_model_id" ref="insurance_management.model_analytic_history_stage"/>
         </record>
