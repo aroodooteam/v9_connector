@@ -51,7 +51,7 @@ class PolicyGenerator(models.TransientModel):
         if inv_src:
             inv_rds = inv_src.read(inv_field)
             for inv_rd in inv_rds:
-                buf_val = {'is_insurance': True, 'type': 'contract'}
+                buf_val = {'is_insurance': True, 'type': 'view'}
                 # search branch and product from inv_line
                 complement_analytic = self.GetBranch(inv_rd.get('id', False))
                 buf_val.update(complement_analytic)
@@ -110,7 +110,7 @@ class PolicyGenerator(models.TransientModel):
     def GenerateVersion(self):
         """Run only after GeneratePolicy"""
         pol_obj = self.env['account.analytic.account']
-        hist_obj = self.env['analytic.history']
+        hist_obj = self.env['account.analytic.account']
         inv_obj = self.env['account.invoice']
         values = self.GeneratePolicy()
         # logger.info('\n === values = %s' % values)
@@ -129,10 +129,12 @@ class PolicyGenerator(models.TransientModel):
                 c += 1
                 # logger.info('inv_len = %s ?= %s c' % (inv_len,c))
                 hist_buf = {
+                    'type': 'contract',
+                    'is_insurance': True,
                     'name': policy.name + '_' + str(c).zfill(4),
-                    'analytic_id': policy.id,
-                    'starting_date': inv_id.prm_datedeb,
-                    'ending_date': inv_id.prm_datefin,
+                    'parent_id': policy.id,
+                    'date_start': inv_id.prm_datedeb,
+                    'date': inv_id.prm_datefin,
                     'agency_id': inv_id.journal_id.agency_id.id or False,
                     'invoice_id': inv_id.id,
                     'stage_id': self.env.ref('insurance_management.avenant').id
@@ -152,7 +154,7 @@ class PolicyGenerator(models.TransientModel):
     def GenerateRiskLine(self):
         ver_ids = self.GenerateVersion()
         # logger.info('\n === ver_ids = %s' % ver_ids)
-        ver_obj = self.env['analytic.history']
+        ver_obj = self.env['account.analytic.account']
         risk_obj = self.env['analytic_history.risk.line']
         ver_ids = ver_obj.browse(ver_ids)
         res = []
@@ -175,7 +177,7 @@ class PolicyGenerator(models.TransientModel):
         risk_buf = {}
         for inv_line in inv.invoice_line:
             vals_buf = {
-                'history_id': ver.id,
+                'analytic_id': ver.id,
                 'partner_id': ver.analytic_id.partner_id.id,
                 'type_risk_id': inv_line.product_id.type_risk_id.id,
                 'name': inv_line.name
