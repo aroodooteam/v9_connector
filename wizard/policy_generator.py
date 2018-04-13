@@ -12,6 +12,8 @@ class PolicyGenerator(models.TransientModel):
 
     max_number = fields.Integer(string='Maximum', default='1')
     period_id = fields.Many2one(comodel_name='account.period', string='Period', domain="[('special','=', False)]")
+    period_ids = fields.Many2many(comodel_name='account.period', string='Periods',  domain="[('special','=', False)]")
+    run_multiperiod = fields.Boolean(string='Run multi periods')
 
     @api.onchange('period_id')
     def GetMaxNumber(self):
@@ -21,7 +23,10 @@ class PolicyGenerator(models.TransientModel):
 
     @api.multi
     def GeneratePolicy(self):
-        if not self.period_id:
+        if not self.run_multiperiod and not self.period_id:
+            # if not self.period_id:
+            return False
+        if self.run_multiperiod and not self.period_ids:
             return False
         inv_field = ['pol_numpol', 'prm_datedeb', 'prm_datefin', 'final_customer_id']
         map_polinv = {
@@ -34,10 +39,13 @@ class PolicyGenerator(models.TransientModel):
         inv_obj = self.env['account.invoice']
         # search invoice in selected period
         inv_src = False
-        if self.max_number:
-            inv_src = inv_obj.search([('period_id', '=', self.period_id.id)], limit=self.max_number)
+        if not self.run_multiperiod:
+            if self.max_number:
+                inv_src = inv_obj.search([('period_id', '=', self.period_id.id)], limit=self.max_number)
+            else:
+                inv_src = inv_obj.search([('period_id', '=', self.period_id.id)])
         else:
-            inv_src = inv_obj.search([('period_id', '=', self.period_id.id)])
+            inv_src = inv_obj.search([('period_id', 'in', self.period_ids.ids)])
         # map policy from invoice
         pol_val = []
         if inv_src:
@@ -85,7 +93,7 @@ class PolicyGenerator(models.TransientModel):
     def GetBranch(self, inv_id):
         if not inv_id:
             return False
-        logger.info('inv = %s' % inv_id)
+        # logger.info('inv = %s' % inv_id)
         res = {}
         inv_line_obj = self.env['account.invoice.line']
         inv_line_ids = inv_line_obj.search([('invoice_id', '=', inv_id)])
@@ -105,7 +113,7 @@ class PolicyGenerator(models.TransientModel):
         hist_obj = self.env['analytic.history']
         inv_obj = self.env['account.invoice']
         values = self.GeneratePolicy()
-        logger.info('\n === values = %s' % values)
+        # logger.info('\n === values = %s' % values)
         policies = values.get('policy', [])
         res = []
         i = 0
@@ -143,7 +151,7 @@ class PolicyGenerator(models.TransientModel):
     @api.multi
     def GenerateRiskLine(self):
         ver_ids = self.GenerateVersion()
-        logger.info('\n === ver_ids = %s' % ver_ids)
+        # logger.info('\n === ver_ids = %s' % ver_ids)
         ver_obj = self.env['analytic.history']
         risk_obj = self.env['analytic_history.risk.line']
         ver_ids = ver_obj.browse(ver_ids)
@@ -179,7 +187,7 @@ class PolicyGenerator(models.TransientModel):
     @api.multi
     def GenerateWarrantyLine(self):
         risk_data = self.GenerateRiskLine()
-        logger.info('risk_data_wrt = %s' % risk_data)
+        # logger.info('risk_data_wrt = %s' % risk_data)
         risk_obj = self.env['analytic_history.risk.line']
         warranty_obj = self.env['risk.warranty.line']
         risk_ids = risk_obj.browse(risk_data)

@@ -24,7 +24,9 @@
                 <form string="Policy generator">
                     <sheet>
                         <group colspan="4">
-                            <field name="period_id" required="1"/>
+                            <field name="run_multiperiod"/>
+                            <field name="period_ids"  attrs="{'invisible':[('run_multiperiod', '=', False)], 'required':[('run_multiperiod', '=', True)]}" widget="m2m_tags"/>
+                            <field name="period_id" attrs="{'invisible':[('run_multiperiod', '=', True)], 'required':[('run_multiperiod', '=', False)]}"/>
                             <field name="max_number"/>
                         </group>
                         <group colspan="4">
