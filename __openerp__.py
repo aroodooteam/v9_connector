@@ -20,8 +20,8 @@
         'views/parameter_setting_view.xml',
         'views/models_mapping_values_view.xml',
         'data/setting_data.xml',
-        'data/model_mapping_values_data.xml',
-        'data/model_mapping_values_data_new.xml',
+        # 'data/model_mapping_values_data.xml',
+        # 'data/model_mapping_values_data_new.xml',
         'wizard/policy_generator_view.xml',
     ],
 }
