@@ -62,6 +62,7 @@ class PolicyGenerator(models.TransientModel):
                     elif k == 'final_customer_id':
                         buf_val[map_polinv.get(k)] = v[0]
                         buf_val['insured_id'] = v[0]
+                logger.info('buf_val2 = %s' % buf_val)
                 pol_val.append(buf_val)
         res = {
             'policy': self.create_policy(pol_val),
@@ -131,6 +132,13 @@ class PolicyGenerator(models.TransientModel):
                 hist_buf = {
                     'type': 'contract',
                     'is_insurance': True,
+                    'partner_id': policy.partner_id.id,
+                    'property_account_position': policy.property_account_position.id,
+                    'insured_id': policy.insured_id.id,
+                    'manager_id': policy.manager_id.id,
+                    'branch_id': policy.branch_id.id,
+                    'ins_product_id': policy.ins_product_id.id,
+                    'fraction_id': policy.fraction_id.id or False,
                     'name': policy.name + '_' + str(c).zfill(4),
                     'parent_id': policy.id,
                     'date_start': inv_id.prm_datedeb,
@@ -146,7 +154,7 @@ class PolicyGenerator(models.TransientModel):
                     # logger.info('===> create history')
                     res.append(hist_obj.create(hist_buf).id)
                 else:
-                    # hist_ids.update(hist_buf)
+                    hist_ids.update(hist_buf)
                     res += hist_ids.ids
         return res
 
@@ -162,7 +170,7 @@ class PolicyGenerator(models.TransientModel):
             risk_data = self.GetTypeRiskFromInvoice(ver_id, ver_id.invoice_id)
             logger.info('risk_data = %s' % risk_data)
             for k,v in risk_data.iteritems():
-                risk_ids = risk_obj.search([('history_id', '=', v.get('history_id')),('type_risk_id', '=', v.get('type_risk_id'))])
+                risk_ids = risk_obj.search([('analytic_id', '=', v.get('analytic_id')),('type_risk_id', '=', v.get('type_risk_id'))])
                 if not risk_ids:
                     res.append(risk_obj.create(v).id)
                 else:
@@ -178,7 +186,7 @@ class PolicyGenerator(models.TransientModel):
         for inv_line in inv.invoice_line:
             vals_buf = {
                 'analytic_id': ver.id,
-                'partner_id': ver.analytic_id.partner_id.id,
+                'partner_id': ver.parent_id.partner_id.id,
                 'type_risk_id': inv_line.product_id.type_risk_id.id,
                 'name': inv_line.name
             }
@@ -199,7 +207,7 @@ class PolicyGenerator(models.TransientModel):
         for risk_id in risk_ids:
             i += 1
             logger.info('=== loop for warranty %s / %s' % (i,len_risk))
-            for inv_line in risk_id.history_id.invoice_id.invoice_line:
+            for inv_line in risk_id.analytic_id.invoice_id.invoice_line:
                 vals = {}
                 if risk_id.type_risk_id == inv_line.product_id.type_risk_id:
                     vals['warranty_id'] = inv_line.product_id.id
