@@ -35,7 +35,6 @@ class PolicyGenerator(models.TransientModel):
             'prm_datefin': 'date',
             'final_customer_id': 'partner_id',
         }
-        analytic_obj = self.env['account.analytic.account']
         inv_obj = self.env['account.invoice']
         # search invoice in selected period
         inv_src = False
@@ -55,14 +54,12 @@ class PolicyGenerator(models.TransientModel):
                 # search branch and product from inv_line
                 complement_analytic = self.GetBranch(inv_rd.get('id', False))
                 buf_val.update(complement_analytic)
-                logger.info('buf_val = %s' % buf_val)
                 for k,v in inv_rd.iteritems():
                     if k not in ('final_customer_id', 'id'):
                         buf_val[map_polinv.get(k)] = v
                     elif k == 'final_customer_id':
                         buf_val[map_polinv.get(k)] = v[0]
                         buf_val['insured_id'] = v[0]
-                logger.info('buf_val2 = %s' % buf_val)
                 pol_val.append(buf_val)
         res = {
             'policy': self.create_policy(pol_val),
@@ -120,7 +117,7 @@ class PolicyGenerator(models.TransientModel):
         i = 0
         for policy in pol_obj.browse(policies):
             i += 1
-            logger.info('%s -> %s (%s / %s)' % (policy.name, policy.id, i, len(policies)))
+            logger.info('version %s -> %s (%s / %s)' % (policy.name, policy.id, i, len(policies)))
             # search invoice
             inv_ids = inv_obj.search([('pol_numpol', '=', policy.name), ('id','in', values.get('invoice'))], order='prm_datedeb')
             # logger.info('=== inv_ids = %s' % inv_ids.mapped('prm_datedeb'))
@@ -154,6 +151,8 @@ class PolicyGenerator(models.TransientModel):
                 if not hist_ids:
                     # logger.info('===> create history')
                     res.append(hist_obj.create(hist_buf).id)
+                    next_sequence = policy.next_sequence + 1
+                    policy.write({'next_sequence': next_sequence})
                 else:
                     hist_ids.update(hist_buf)
                     res += hist_ids.ids
